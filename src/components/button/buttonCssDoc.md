@@ -64,5 +64,49 @@ This is the css declaration of the class
  }
 ```
 
+##Floating action buttons (FAB buttons)
 
+###Default FAB buttons
+
+Add the md-fab button in order to create a floating action button.
+```html
+       <md-button class="md-fab" aria-label="Eat cake">
+            <md-icon md-svg-src="img/icons/cake.svg"></md-icon>
+        </md-button>
+```
+
+![floatingbutton](https://cloud.githubusercontent.com/assets/1292882/7254736/8fec7ee8-e84d-11e4-9cf9-58ea9221c3c2.PNG)
+
+The css declaration of the md-fab button is
+
+```css
+  .md-button.md-fab {
+    line-height: 5.6rem;
+    min-width: 0;
+    width: 5.6rem;
+    height: 5.6rem;
+    border-radius: 50%;
+   }
+```
+
+###Mini FAB buttons
+
+In order to create small FAB buttons add the md-mini class
+
+```html
+<md-button class="md-fab md-mini" aria-label="Eat cake">
+            <md-icon md-svg-src="img/icons/cake.svg"></md-icon>
+</md-button>
+```
+The small button is on the right side:
+
+![minibutton](https://cloud.githubusercontent.com/assets/1292882/7273617/1fcca280-e8fe-11e4-9588-231a9e860be1.PNG)
+
+The css declaration of the md-mini class is
+```css
+.md-button.md-fab.md-mini {
+      line-height: 4rem;
+      width: 4rem;
+      height: 4rem; }
+```
 
