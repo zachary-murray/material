@@ -110,3 +110,26 @@ The css declaration of the md-mini class is
       height: 4rem; }
 ```
 
+##Icon button
+
+Create icon buttons by adding the md-icon class
+
+```html
+<md-button class="md-icon-button md-primary" aria-label="Settings">
+        <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
+</md-button>
+```
+
+![iconbutton](https://cloud.githubusercontent.com/assets/1292882/7273908/d701bd8a-e900-11e4-84c7-44c580c7372d.PNG)
+
+The css decalaration of the md-icon-button is 
+ ```css
+  .md-button.md-icon-button {
+    margin: 0 0.6rem;
+    height: 4.8rem;
+    min-width: 0;
+    line-height: 4.8rem;
+    padding-left: 0;
+    padding-right: 0;
+    width: 4.8rem; }
+```
