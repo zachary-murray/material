@@ -440,13 +440,15 @@ function parseRules(theme, colorType, rules) {
 
 // Generate our themes at run time given the state of THEMES and PALETTES
 function generateThemes($injector) {
+  var themeCss = $injector.has('$MD_THEME_CSS') ? $injector.get('$MD_THEME_CSS') : '';
+
+  if (themeCss.length === 0) return; // no rules, so no point in running this expensive task
 
   // Insert our newly minted styles into the DOM
   var head = document.getElementsByTagName('head')[0];
   if (!head) return;
   var firstChild = head.firstElementChild;
   if (!firstChild) return;
-  var themeCss = $injector.has('$MD_THEME_CSS') ? $injector.get('$MD_THEME_CSS') : '';
 
     // Expose contrast colors for palettes to ensure that text is always readable
     angular.forEach(PALETTES, sanitizePalette);

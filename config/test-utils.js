@@ -50,6 +50,8 @@ beforeEach(function() {
       return $delegate;
     });
 
+    $provide.value('$MD_THEME_CSS', '');
+
   });
 
 
