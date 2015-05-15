@@ -1,3 +1,17 @@
+<a name="0.9.4"></a>
+### 0.9.4  (2015-05-15)
+
+
+#### Features
+
+* **build:** add script to snapshot docs site ([76e36722](https://github.com/angular/material/commit/76e36722e07846b518612e9073785a279b3027cd), closes [#2852](https://github.com/angular/material/issues/2852))
+
+
+#### Bug Fixes
+
+* **build:** fixes issue where JS files were being generated with Closure code
+
+
 <a name="0.9.3"></a>
 ### 0.9.3  (2015-05-14)
 
