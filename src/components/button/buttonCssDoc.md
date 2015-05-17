@@ -6,14 +6,14 @@ The base class for all buttons is .md-button. This class is applied automaticall
 The public css of this class
 ```css
 
-.md-button {
-  padding: 0 0.6rem;
-  margin: 0.6rem 0.8rem;
-  min-width: 8.8rem;
-  text-align: center;
+.md-button {      
+  padding:        0 0.6rem;
+  margin:         0.6rem 0.8rem;
+  min-width:      8.8rem;
+  text-align:     center;
   text-transform: uppercase;
-  text-decoration: none;
-  cursor: pointer;
+  text-decoration:none;
+  cursor:         pointer;
   }
 ```
 
