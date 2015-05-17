@@ -133,3 +133,17 @@ The css decalaration of the md-icon-button is
     padding-right: 0;
     width: 4.8rem; }
 ```
+
+
+Here is another example of a button with font icons:
+
+```html
+<md-button>
+ <md-icon md-font-icon="icon-home" 
+   ng-style="{color: 'green', 'font-size':'36px', height:'36px'}" >
+ </md-icon>
+</md-button>
+```
+
+
+![fonticonbutton](https://cloud.githubusercontent.com/assets/1292882/7670414/f57721ba-fcab-11e4-9a22-67970063797c.PNG)
