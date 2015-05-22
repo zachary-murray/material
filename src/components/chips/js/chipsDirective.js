@@ -153,7 +153,7 @@
       },
       require: ['mdChips'],
       restrict: 'E',
-      controller: 'MdChipsCtrl',
+      controller: 'MdChipsController',
       controllerAs: '$mdChipsCtrl',
       bindToController: true,
       compile: compile,
@@ -238,6 +238,8 @@
             .attr({ ariaHidden: true, tabindex: -1 })
             .on('focus', function () { mdChipsCtrl.onFocus(); });
 
+        var timeoutFns = [];
+
         if (attr.ngModel) {
           mdChipsCtrl.configureNgModel(element.controller('ngModel'));
 
@@ -249,11 +251,13 @@
           // is complete (due to their nested nature). Wait a tick before looking for them to
           // configure the controller.
           if (chipInputTemplate != CHIP_INPUT_TEMPLATE) {
-            $timeout(function() {
-              if (chipInputTemplate.indexOf('<md-autocomplete') === 0)
-                mdChipsCtrl
-                    .configureAutocomplete(element.find('md-autocomplete')
-                        .controller('mdAutocomplete'));
+            timeoutFns.push(function() {
+
+              if (chipInputTemplate.indexOf('<md-autocomplete') === 0) {
+                var acCtrl = element.find('md-autocomplete').controller('mdAutocomplete');
+                mdChipsCtrl.configureAutocomplete( acCtrl );
+              }
+
               mdChipsCtrl.configureUserInput(element.find('input'));
             });
           }
@@ -262,8 +266,20 @@
         // Compile with the parent's scope and prepend any static chips to the wrapper.
         if (staticChips.length > 0) {
           var compiledStaticChips = $compile(staticChips)(scope.$parent);
-          $timeout(function() { element.find('md-chips-wrap').prepend(compiledStaticChips); });
+
+          timeoutFns.push(function() {
+            element.find('md-chips-wrap').prepend(compiledStaticChips);
+          });
         }
+
+        // Coalesce all timeout processes...
+        $timeout(function() {
+          timeoutFns.forEach(function(fn){
+            fn();
+          });
+          mdChipsCtrl.validateAccessibility();
+        })
+
       };
     }
   }

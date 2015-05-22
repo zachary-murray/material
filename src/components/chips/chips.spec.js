@@ -1,12 +1,12 @@
 describe('<md-chips>', function() {
-  var scope;
-  var BASIC_CHIP_TEMPLATE =
-      '<md-chips ng-model="items"></md-chips>';
-  var CHIP_APPEND_TEMPLATE =
-      '<md-chips ng-model="items" md-on-append="appendChip($chip)"></md-chips>';
+  var scope, $timeout;
+
+  var BASIC_CHIP_TEMPLATE  = '<md-chips ng-model="items"></md-chips>';
+  var CHIP_APPEND_TEMPLATE = '<md-chips ng-model="items" md-on-append="appendChip($chip)"></md-chips>';
 
   beforeEach(module('material.components.chips', 'material.components.autocomplete'));
-  beforeEach(inject(function ($rootScope) {
+  beforeEach(inject(function ($rootScope,_$timeout_) {
+    $timeout= _$timeout_;
     scope = $rootScope.$new();
     scope.items = ['Apple', 'Banana', 'Orange'];
   }));
@@ -145,11 +145,10 @@ describe('<md-chips>', function() {
           </md-autocomplete>\
         </md-chips>';
 
-      it('should use the selected item as a buffer', inject(function($timeout) {
+      it('should use the selected item as a buffer', inject(function() {
         setupScopeForAutocomplete();
         var element = buildChips(AUTOCOMPLETE_CHIPS_TEMPLATE);
         var ctrl = element.controller('mdChips');
-        $timeout.flush(); // mdAutcomplete needs a flush for its init.
         var autocompleteCtrl = element.find('md-autocomplete').controller('mdAutocomplete');
 
         element.scope().$apply(function() {
@@ -177,10 +176,9 @@ describe('<md-chips>', function() {
 
       describe('using ngModel', function() {
         it('should add the ngModelCtrl.$viewValue when <enter> is pressed',
-            inject(function($timeout) {
+            inject(function() {
           var element = buildChips(NG_MODEL_TEMPLATE);
           var ctrl = element.controller('mdChips');
-          $timeout.flush();
 
           var ngModelCtrl = ctrl.userInputNgModelCtrl;
 
@@ -195,10 +193,9 @@ describe('<md-chips>', function() {
       });
 
       describe('without ngModel', function() {
-        it('should support an input without an ngModel', inject(function ($timeout) {
+        it('should support an input without an ngModel', inject(function () {
           var element = buildChips(INPUT_TEMPLATE);
           var ctrl = element.controller('mdChips');
-          $timeout.flush();
 
           element.scope().$apply(function() {
             ctrl.userInputElement[0].value = 'Kiwi';
@@ -220,11 +217,10 @@ describe('<md-chips>', function() {
           <md-chip>Baseball</md-chip>\
           <md-chip>{{chipItem}}</md-chip>\
         </md-chips>';
-    it('should transclude static chips', inject(function($timeout) {
+    it('should transclude static chips', inject(function() {
       scope.chipItem = 'Football';
       var element = buildChips(STATIC_CHIPS_TEMPLATE);
       var ctrl = element.controller('mdChips');
-      $timeout.flush();
 
       var chips = getChipElements(element);
       expect(chips.length).toBe(4);
@@ -262,15 +258,47 @@ describe('<md-chips>', function() {
     });
   });
 
+  describe('accessibility validations',function(){
+
+    it('should expect an aria-label if element has no text', inject(function($compile, $rootScope, $log) {
+       spyOn($log, 'warn');
+       var chips = buildChips('<md-chips ng-model="items"></md-chips>');
+       expect($log.warn).toHaveBeenCalled();
+
+       $log.warn.calls.reset();
+       chips = buildChips('<md-chips ng-model="items" aria-label="something"></md-chips>');
+       expect($log.warn).not.toHaveBeenCalled();
+
+        $log.warn.calls.reset();
+        chips = buildChips('<md-chips ng-model="items" placeholder="something"></md-chips>')
+        expect($log.warn).not.toHaveBeenCalled();
+
+        $log.warn.calls.reset();
+        chips = buildChips('<md-chips ng-model="items" placeholder="Enter a number"> <input type="number" placeholder=""></md-chips>');
+        expect($log.warn).not.toHaveBeenCalled();
+        expect( chips.find('input').attr('aria-label') ).toBe("Enter a number");
+
+        $log.warn.calls.reset();
+        chips = buildChips('<md-chips ng-model="items" aria-label="Enter a number"> <input type="number"></md-chips>');
+        expect($log.warn).not.toHaveBeenCalled();
+        expect( chips.find('input').attr('aria-label') ).toBe("Enter a number");
+
+    }));
+
+  });
+
   // *******************************
   // Internal helper methods
   // *******************************
 
   function buildChips (str) {
      var container;
-     inject(function ($compile) {
+     inject(function ($compile, $$rAF) {
        container = $compile(str)(scope);
        container.scope().$apply();
+
+       $timeout.flush();
+       $$rAF.flush();
      });
      return container;
    }
