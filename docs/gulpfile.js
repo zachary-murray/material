@@ -19,7 +19,7 @@ var config = {
   demoFolder: 'demo-partials'
 };
 
-gulp.task('docs', ['docs-js', 'docs-css', 'docs-demo-scripts']);
+gulp.task('docs', ['docs-js', 'docs-css', 'docs-demo-scripts', 'docs-search-js']);
 
 gulp.task('demos', function() {
   var demos = [];
@@ -99,7 +99,7 @@ gulp.task('docs-generate', ['build'], function() {
 });
 
 gulp.task('docs-app', ['docs-generate'], function() {
-  return gulp.src(['docs/app/**/*', '!docs/app/partials/**/*.html'])
+  return gulp.src(['docs/app/**/*', '!docs/app/partials/**/*.html', '!docs/app/js/search-worker.js'])
     .pipe(gulp.dest('dist/docs'));
 });
 
@@ -111,6 +111,11 @@ gulp.task('docs-demo-scripts', ['demos'], function() {
 
 gulp.task('docs-js-dependencies', ['build'], function() {
   return gulp.src(['dist/angular-material.js','dist/angular-material.min.js'])
+    .pipe(gulp.dest('dist/docs'));
+});
+
+gulp.task('docs-search-js', ['docs-js'], function() {
+  return gulp.src(['node_modules/lunr/lunr.min.js', 'docs/app/js/search-worker.js'])
     .pipe(gulp.dest('dist/docs'));
 });
 
