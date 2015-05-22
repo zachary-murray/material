@@ -1,5 +1,5 @@
 DocsApp
-  .controller('DocsSearchCtrl', DocsSearchCtrl)
+  .controller('DocsSearchCtrl', ['$scope', '$location', 'docsSearch', DocsSearchCtrl])
   .provider('docsSearch', DocsSearch)
   .directive('docsSearchInput', ['$compile', DocsSearchDirective]);
 
@@ -10,11 +10,9 @@ function DocsSearchCtrl($scope, $location, docsSearch) {
   }
 
   $scope.search = function(q) {
-    console.log('searching', q);
     var MIN_SEARCH_LENGTH = 2;
     if(q.length >= MIN_SEARCH_LENGTH) {
       docsSearch(q).then(function(hits) {
-        var results = {};
         $scope.hasResults = hits.length > 0;
         $scope.results = hits;
       });
@@ -100,7 +98,6 @@ function DocsSearch() {
           searchIndex.resolve();
           break;
         case 'query-ready':
-          console.log(oEvent.data.d);
           var pages = oEvent.data.d.map(function(path) {
             return DOCS_PAGES[path];
           });

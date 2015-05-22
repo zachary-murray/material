@@ -73,6 +73,18 @@
           <span flex></span> <!-- use up the empty space -->
 
           <docs-search-input></docs-search-input>
+          <div class="search-results-container"
+               ng-controller="DocsSearchCtrl" ng-show="hasResults">
+            <md-list>
+              <md-list-item ng-repeat="(key, result) in results">
+                <a ng-click="hideResults()" ng-href="#/{{ result.path }}">{{ result.name }}</a>
+              </md-list-item>
+            </md-list>
+            <a href="" ng-click="hideResults()" class="search-close">
+              Close
+            </a>
+          </div>
+
           <div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row">
             <md-button ng-if="!menu.currentPage || menu.currentSection.name === 'Getting Started'"
                        target="_blank"

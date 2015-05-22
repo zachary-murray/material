@@ -267,6 +267,7 @@ code:not(.highlight) {
 .docs-menu .md-button.active {
   color: #03a9f4;
 }
+
 .menu-heading {
   display: block;
   line-height: 32px;
@@ -448,6 +449,23 @@ md-tabs.demo-source-tabs .active md-tab-label {
 .small-demo .md-toolbar-tools {
   min-height: 48px;
   max-height: 48px;
+}
+
+.search-results-container {
+  position: absolute;
+  top: 64px;
+  left: 0;
+  right: 0;
+  background-color: white;
+  color: black;
+}
+
+.search-results-container md-list-item {
+  border-bottom: 1px solid black;
+}
+
+.search-results-container md-list-item:last-child {
+  border: none;
 }
 
 .demo-toolbar .md-button {
