@@ -13,6 +13,8 @@ module.exports = new Package('angular-md', [
 ])
 
 .processor(require('./processors/componentsData'))
+.processor(require('./processors/extractKeywords'))
+.processor(require('./processors/populateSearchData'))
 .processor(require('./processors/indexPage'))
 .processor(require('./processors/buildConfig'))
 .processor(require('./processors/content'))
