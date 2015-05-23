@@ -122,54 +122,47 @@ describe('CodepenDataAdapter', function() {
     describe('when the module definition in the js file is formatted in different ways', function() {
 
       it('handles second argument on a new line', function() {
-        var script = "angular.module('test',\n \
-[]);";
-        demo.js = [script];
-
-        data = codepenDataAdapter.translate(demo, externalScripts);
-        expect(data.js).toBe("angular.module('MyApp');");
+        shouldReplaceModuleOnSingleLine("angular.module('test',\n \
+[]);");
       });
 
       it('handles dependencies on new lines', function() {
-        var script = "angular.module('test', [\n \
+        shouldReplaceModuleOnSingleLine("angular.module('test', [\n \
 'Dep1',\n \
 'Dep2',\n \
-]);";
+]);");
+      });
+
+      it('handles module on a new line', function() {
+        shouldReplaceMultilineModule("angular\n\
+.module('test', [\n \
+'Dep1',\n \
+'Dep2',\n \
+]);");
+      });
+
+      it("handles html escaped javascript", function() {
+        shouldReplaceModuleOnSingleLine('angular.module(&apos;app&apos;, [&apos;ngMaterial&apos;]);');
+      });
+
+      it("handles html escaped javascript", function() {
+        shouldReplaceModuleOnSingleLine('angular.module(&quot;app&quot;, [&apos;ngMaterial&apos;]);');
+      });
+
+      function shouldReplaceModuleOnSingleLine(script) {
         demo.js = [script];
 
         data = codepenDataAdapter.translate(demo, externalScripts);
         expect(data.js).toBe("angular.module('MyApp');");
-      });
+      };
 
-      it('handles module on a new line', function() {
-        var script = "angular\n\
-.module('test', [\n \
-'Dep1',\n \
-'Dep2',\n \
-]);";
+      function shouldReplaceMultilineModule(script) {
         demo.js = [script];
 
         data = codepenDataAdapter.translate(demo, externalScripts);
         expect(data.js).toBe("angular\n\
 .module('MyApp');");
-      });
-
-      it("handles html escaped javascript", function() {
-        var script = 'angular.module(&apos;app&apos;, [&apos;ngMaterial&apos;]);';
-        demo.js = [script];
-
-        data = codepenDataAdapter.translate(demo, externalScripts);
-        expect(data.js).toBe("angular.module('MyApp');");
-      });
-
-      it("handles html escaped javascript", function() {
-        var script = 'angular.module(&quot;app&quot;, [&apos;ngMaterial&apos;]);';
-        demo.js = [script];
-
-        data = codepenDataAdapter.translate(demo, externalScripts);
-        expect(data.js).toBe("angular.module('MyApp');");
-      });
-
+      };
     });
   });
 });
