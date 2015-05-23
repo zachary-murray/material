@@ -4,10 +4,19 @@
 {% block additional %}
 
   <section class="api-section">
-    <h2 id="Usage">Usage</h2>
     {% if doc.usage %}
+      <div layout="row">
+        <h2 id="Usage">Usage</h2>
+        <span flex><!-- Fill Space --></span>
+        <md-button hide-sm ng-click="editOnCodepen('{$ doc.name $}')"
+               class="md-icon-button">
+          <md-tooltip>Edit on CodePen</md-tooltip>
+          <md-icon md-svg-src="img/icons/codepen-logo.svg"></md-icon>
+        </md-button>
+      </div>
       {$ doc.usage | marked $}
     {% else %}
+      <h2 id="Usage">Usage</h2>
       <code>{$ functionSyntax(doc) $}</code>
     {% endif %}
   </section>

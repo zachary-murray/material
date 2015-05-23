@@ -593,9 +593,19 @@ function($scope, $attrs, $location, $rootScope) {
   '$templateCache',
   '$http',
   '$q',
-function($scope, doc, component, $rootScope, $templateCache, $http, $q) {
+  'codepen',
+  'HLJS_EXAMPLES',
+function($scope, doc, component, $rootScope, $templateCache, $http, $q, codepen, HLJS_EXAMPLES) {
   $rootScope.currentComponent = component;
   $rootScope.currentDoc = doc;
+  $scope.editOnCodepen = function(name) {
+    var example = HLJS_EXAMPLES[name];
+    codepen.editOnCodepen({
+      title: name,
+      js: [example.js],
+      index: example.html
+    });
+  };
 }])
 
 .controller('DemoCtrl', [
