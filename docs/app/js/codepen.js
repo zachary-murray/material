@@ -143,7 +143,7 @@
     // module needs to match so that the $templateCache is populated with the necessary
     // assets.
     function replaceDemoModuleWithCodepenModule(file) {
-      var matchAngularModule =  /\.module\(('[^']*'|"[^"]*")\s*,(?:\s*\[([^\]]*)\])?/g;
+      var matchAngularModule =  /\.module\(('[^']*'|"[^"]*"|&apos;.+&apos;|&quot;.+&quot;)\s*,(?:\s*\[([^\]]*)\])?/g;
       return file.replace(matchAngularModule, ".module('MyApp'");
     }
   }

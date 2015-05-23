@@ -153,6 +153,23 @@ describe('CodepenDataAdapter', function() {
         expect(data.js).toBe("angular\n\
 .module('MyApp');");
       });
+
+      it("handles html escaped javascript", function() {
+        var script = 'angular.module(&apos;app&apos;, [&apos;ngMaterial&apos;]);';
+        demo.js = [script];
+
+        data = codepenDataAdapter.translate(demo, externalScripts);
+        expect(data.js).toBe("angular.module('MyApp');");
+      });
+
+      it("handles html escaped javascript", function() {
+        var script = 'angular.module(&quot;app&quot;, [&apos;ngMaterial&apos;]);';
+        demo.js = [script];
+
+        data = codepenDataAdapter.translate(demo, externalScripts);
+        expect(data.js).toBe("angular.module('MyApp');");
+      });
+
     });
   });
 });
