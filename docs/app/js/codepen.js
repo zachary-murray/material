@@ -59,13 +59,11 @@
     // Translates a demo model to match Codepen's post data
     // See http://blog.codepen.io/documentation/api/prefill
     function translate(demo, externalScripts) {
-      var files = demo.files;
-
       return {
         title: demo.title,
         html: processHtml(demo),
-        css: mergeFiles(files.css).join(' '),
-        js: processJs(files.js),
+        css: (demo.css || []).join(' '),
+        js: processJs(demo.js),
         js_external: externalScripts.concat([CORE_JS, ASSET_CACHE_JS]).join(';'),
         css_external: CORE_CSS
       };
@@ -74,7 +72,7 @@
     // Modifies index.html with neccesary changes in order to display correctly in codepen
     // See each processor to determine how each modifies the html
     function processHtml(demo) {
-      var index = demo.files.index.contents;
+      var index = demo.index;
 
       var processors = [
         applyAngularAttributesToParentElement,
@@ -93,16 +91,9 @@
     // Currently merges js files and replaces the module with the Codepen
     // module.  See documentation for replaceDemoModuleWithCodepenModule.
     function processJs(jsFiles) {
-      var mergedJs = mergeFiles(jsFiles).join(' ');
+      var mergedJs = (jsFiles || []).join(' ');
       var script = replaceDemoModuleWithCodepenModule(mergedJs);
       return script;
-    }
-
-    // Maps file contents to an array
-    function mergeFiles(files) {
-      return files.map(function(file) {
-        return file.contents;
-      });
     }
 
     // Adds class to parent element so that styles are applied correctly
@@ -124,9 +115,9 @@
 
     // Adds templates inline in the html, so that templates are cached in the example
     function insertTemplatesAsScriptTags(indexHtml, demo) {
-      if (demo.files.html.length) {
+      if (demo.html && demo.html.length) {
         var tmp = angular.element(indexHtml);
-        angular.forEach(demo.files.html, function(template) {
+        angular.forEach(demo.html, function(template) {
           tmp.append("<script type='text/ng-template' id='" +
                      template.name + "'>" +
                      template.contents +

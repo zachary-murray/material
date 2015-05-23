@@ -16,19 +16,11 @@ describe('CodepenDataAdapter', function() {
       id: 'spec-demo',
       title: 'demo-title',
       module: 'demo-module',
-      files: {
-        index: {
-          contents: '<div></div>'
-        },
-        html: [],
-        css: [
-          { contents: '.fake-class { color: red }' }
-        ],
-        js: [
-          { contents: 'angular.module("SomeOtherModule", ["Dependency1"]);' }
-        ]
-      }
-    }
+      index: '<div></div>',
+      css: ['.fake-class { color: red }'],
+      js: ['angular.module("SomeOtherModule", ["Dependency1"]);'],
+      html: []
+    };
   });
 
   describe('#translate', function() {
@@ -75,14 +67,14 @@ describe('CodepenDataAdapter', function() {
 
     describe('when html templates are included in the demo', function() {
 
-      var template, $script;
+      var template, script;
       beforeEach(function() {
         template = {
           name: 'template-name',
           contents: "<div class='foo'>{{bar}}</div>"
         };
 
-        demo.files.html.push(template);
+        demo.html.push(template);
 
         data = codepenDataAdapter.translate(demo, externalScripts);
 
@@ -105,13 +97,13 @@ describe('CodepenDataAdapter', function() {
     describe('when the demo html includes a <code> block', function() {
 
       it('escapes the ampersand, so that codepen does not unescape the angle brackets', function() {
-        demo.files.index.contents = '<div><code>&gt;md-autocomplete&lt;</code></div>';
+        demo.index = '<div><code>&gt;md-autocomplete&lt;</code></div>';
         data = codepenDataAdapter.translate(demo, externalScripts);
         expect(angular.element(data.html).html()).toBe('<code>&amp;gt;md-autocomplete&amp;lt;</code>');
       });
 
       it('handles multiple code blocks', function() {
-        demo.files.index.contents = '<div><code>&gt;md-autocomplete&lt;</code><code>&gt;md-input&lt;</code></div>';
+        demo.index = '<div><code>&gt;md-autocomplete&lt;</code><code>&gt;md-input&lt;</code></div>';
         data = codepenDataAdapter.translate(demo, externalScripts);
         expect(angular.element(data.html).html()).toBe('<code>&amp;gt;md-autocomplete&amp;lt;</code><code>&amp;gt;md-input&amp;lt;</code>');
       });
@@ -121,7 +113,7 @@ describe('CodepenDataAdapter', function() {
     describe('when the html example includes &nbsp;', function() {
 
       it('escapes the ampersand, so that the codepen does not translate to an invalid character', function() {
-        demo.files.index.contents = '<div>&nbsp;&nbsp;</div>';
+        demo.index = '<div>&nbsp;&nbsp;</div>';
         data = codepenDataAdapter.translate(demo, externalScripts);
         expect(angular.element(data.html).html()).toBe('&amp;nbsp;&amp;nbsp;');
       });
@@ -132,7 +124,7 @@ describe('CodepenDataAdapter', function() {
       it('handles second argument on a new line', function() {
         var script = "angular.module('test',\n \
 []);";
-        demo.files.js = [{ contents: script }];
+        demo.js = [script];
 
         data = codepenDataAdapter.translate(demo, externalScripts);
         expect(data.js).toBe("angular.module('MyApp');");
@@ -143,7 +135,7 @@ describe('CodepenDataAdapter', function() {
 'Dep1',\n \
 'Dep2',\n \
 ]);";
-        demo.files.js = [{ contents: script }];
+        demo.js = [script];
 
         data = codepenDataAdapter.translate(demo, externalScripts);
         expect(data.js).toBe("angular.module('MyApp');");
@@ -155,7 +147,7 @@ describe('CodepenDataAdapter', function() {
 'Dep1',\n \
 'Dep2',\n \
 ]);";
-        demo.files.js = [{ contents: script }];
+        demo.js = [script];
 
         data = codepenDataAdapter.translate(demo, externalScripts);
         expect(data.js).toBe("angular\n\

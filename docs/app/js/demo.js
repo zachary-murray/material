@@ -55,11 +55,20 @@ function($mdUtil) {
     self.editOnCodepen = function() {
       codepen.editOnCodepen({
         title: self.demoTitle,
-        files: self.files,
+        css: mapContentsToArray(self.files.css),
+        js: mapContentsToArray(self.files.js),
+        index: self.files.index.contents,
+        html: self.files.html, //send templates as is with name/contents
         id: self.demoId,
         module: self.demoModule
       });
     };
+
+    function mapContentsToArray(files) {
+      return files.map(function(file) {
+        return file.contents;
+      });
+    }
 
     function convertName(name) {
       switch(name) {
