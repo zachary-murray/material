@@ -1,7 +1,7 @@
 DocsApp
   .controller('DocsSearchCtrl', ['$scope', '$location', 'docsSearch', DocsSearchCtrl])
   .provider('docsSearch', DocsSearch)
-  .directive('docsSearchInput', ['$compile', DocsSearchDirective]);
+  .directive('docsSearchInput', ['$compile', '$timeout', DocsSearchDirective]);
 
 function DocsSearchCtrl($scope, $location, docsSearch) {
   function clearResults() {
@@ -127,18 +127,61 @@ function DocsSearch() {
   };
 };
 
-function DocsSearchDirective($compile) {
+function DocsSearchDirective($compile, $timeout) {
   return {
     controller: ['$scope', '$location', 'docsSearch', DocsSearchCtrl],
-    template: "<md-button aria-label='search'>" +
-      "<md-icon md-svg-src='img/icons/ic_search_24px.svg'></md-icon>" +
-      "</md-button>",
+    template: function (element, attr) {
+      return "\
+        <md-button\
+            class='md-icon-button'\
+            title='Search'\
+            aria-label='Search'>\
+          <md-icon\
+              md-svg-src='img/icons/ic_search_24px.svg'>\
+          </md-icon>\
+        </md-button>\
+        <div class='docs-search-input-wrap md-toolbar-child-item'>\
+          <md-input-container md-no-float>\
+            <label for='docs-search-input' class='md-visually-hidden'>Search</label>\
+            <input\
+              type='text'\
+              ng-model='q'\
+              ng-change='search(q)'\
+              placeholder='Search'\
+              id='docs-search-input'\
+              tabindex='-1'>\
+          </md-input-container>\
+        </div>";
+    },
     link: function(scope, element, attr) {
+      var input = element.find('input'),
+          button = element.find('button'),
+          parent = element.parent();
 
-      element.on('click', function() {
-        // Need a different experience on mobile vs desktop
-        var search = $compile('<input type="text" ng-model="q" ng-change="search(q)"></input>')(scope);
-        element.parent().append(search);
+      // need to allow hiding on blur
+      // while also closing on second click of button
+      input.on('blur', function($event) {
+        parent.removeClass('md-active');
+      });
+
+      button.on('click', function($event) {
+        console.log(parent);
+        if (!parent.hasClass('md-active')) {
+          parent.addClass('md-active');
+
+          var timeout = $timeout(function() {
+            input.focus();
+          }, 250);
+        }
+        else {
+          parent.removeClass('md-active');
+        }
+      });
+      element.on('keydown', function($event) {
+        if ($event.which === 27 && parent.hasClass('md-active')) {
+          parent.removeClass('md-active');
+          button.focus();
+        }
       });
     }
   };

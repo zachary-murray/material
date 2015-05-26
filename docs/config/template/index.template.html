@@ -54,8 +54,8 @@
   <div layout="column" tabIndex="-1" role="main" flex>
     <md-toolbar class="md-whiteframe-glow-z2">
 
-      <div class="md-toolbar-tools docs-toolbar-tools" ng-click="openMenu()" tabIndex="-1">
-        <md-button class="md-icon-button" hide-gt-sm aria-label="Toggle Menu">
+      <div class="md-toolbar-tools docs-toolbar-tools" tabIndex="-1">
+        <md-button class="md-icon-button" hide-gt-sm aria-label="Toggle Menu" ng-click="openMenu()">
           <md-icon md-svg-src="img/icons/ic_menu_24px.svg"></md-icon>
         </md-button>
         <div layout="row" flex class="fill-height">
@@ -71,19 +71,6 @@
           </h2>
 
           <span flex></span> <!-- use up the empty space -->
-
-          <docs-search-input></docs-search-input>
-          <div class="search-results-container"
-               ng-controller="DocsSearchCtrl" ng-show="hasResults">
-            <md-list>
-              <md-list-item ng-repeat="(key, result) in results">
-                <a ng-click="hideResults()" ng-href="#/{{ result.path }}">{{ result.name }}</a>
-              </md-list-item>
-            </md-list>
-            <a href="" ng-click="hideResults()" class="search-close">
-              Close
-            </a>
-          </div>
 
           <div class="md-toolbar-item docs-tools" layout="column" layout-gt-md="row">
             <md-button ng-if="!menu.currentPage || menu.currentSection.name === 'Getting Started'"
@@ -111,6 +98,20 @@
               <md-icon md-svg-src="img/icons/ic_launch_24px.svg"></md-icon>
               <span>View on Github</span>
             </md-button>
+          </div>
+
+          <docs-search-input></docs-search-input>
+
+          <div class="search-results-container"
+               ng-controller="DocsSearchCtrl" ng-show="hasResults">
+            <md-list>
+              <md-list-item ng-repeat="(key, result) in results">
+                <a ng-click="hideResults()" ng-href="#/{{ result.path }}">{{ result.name }}</a>
+              </md-list-item>
+            </md-list>
+            <a href="" ng-click="hideResults()" class="search-close">
+              Close
+            </a>
           </div>
         </div>
       </div>

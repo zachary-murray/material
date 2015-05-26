@@ -343,6 +343,7 @@ code:not(.highlight) {
   display: inline-block;
   word-wrap: break-word;
 }
+
 @media (max-width: 400px) {
   .docs-tools {
     display: none;
@@ -451,23 +452,6 @@ md-tabs.demo-source-tabs .active md-tab-label {
   max-height: 48px;
 }
 
-.search-results-container {
-  position: absolute;
-  top: 64px;
-  left: 0;
-  right: 0;
-  background-color: white;
-  color: black;
-}
-
-.search-results-container md-list-item {
-  border-bottom: 1px solid black;
-}
-
-.search-results-container md-list-item:last-child {
-  border: none;
-}
-
 .demo-toolbar .md-button {
   color: #616161;
 }
@@ -521,6 +505,61 @@ md-toolbar.demo-toolbar .md-button {
 }
 .docs-output {
 
+}
+/***************
+ * Search
+ ***************/
+docs-search-input {
+  position: relative;
+}
+.docs-search-input-wrap {
+ position: absolute;
+ overflow: hidden;
+ top: 0;
+ right: 48px;
+ min-width: 0;
+ max-width: 0;
+ transition: all 0.25s;
+}
+docs-search-input .md-button {
+  position: relative;
+  z-index: 1;
+}
+.md-active .docs-search-input-wrap {
+  min-width: 280px;
+  max-width: 100%;
+}
+.md-toolbar-item.docs-tools {
+  opacity: 1;
+  transition: opacity 0.25s;
+}
+.md-active .md-toolbar-item.docs-tools {
+  opacity: 0;
+}
+.docs-search-input-wrap md-input-container {
+  padding-bottom: 0;
+  padding-top: 8px;
+}
+.docs-search-input-wrap md-input-container.md-default-theme .md-input {
+  border-color: rgba(255, 255, 255, 0.54);
+  color: rgba(255, 255, 255, 1);
+}
+
+.search-results-container {
+  position: absolute;
+  top: 64px;
+  left: 0;
+  right: 0;
+  background-color: white;
+  color: black;
+}
+
+.search-results-container md-list-item {
+  border-bottom: 1px solid black;
+}
+
+.search-results-container md-list-item:last-child {
+  border: none;
 }
 
 /***************
