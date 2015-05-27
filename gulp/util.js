@@ -54,14 +54,26 @@ function buildModule(module, isRelease) {
   var name = module.split('.').pop();
   utils.copyDemoAssets(name, 'src/components/', 'dist/demos/');
 
-  return utils.filesForModule(module)
+  var stream = utils.filesForModule(module)
       .pipe(filterNonCodeFiles())
       .pipe(gulpif('*.scss', buildModuleStyles(name)))
-      .pipe(gulpif('*.js', buildModuleJs(name)))
+      .pipe(gulpif('*.js', buildModuleJs(name)));
+  if (module === 'material.core') {
+    stream = splitStream(stream);
+  }
+  return stream
       .pipe(BUILD_MODE.transform())
       .pipe(insert.prepend(config.banner))
       .pipe(gulpif(isRelease, buildMin()))
       .pipe(gulp.dest(BUILD_MODE.outputDir + name));
+
+  function splitStream (stream) {
+    var js = series(stream, themeBuildStream())
+        .pipe(filter('*.js'))
+        .pipe(concat('core.js'));
+    var css = stream.pipe(filter('*.css'));
+    return series(js, css);
+  }
 
   function buildMin() {
     return lazypipe()
