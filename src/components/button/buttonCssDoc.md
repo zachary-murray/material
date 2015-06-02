@@ -125,10 +125,8 @@ Here is a snapshot of the rendered, customized `md-button` components:
 }
 ```
 
----
 <br/>
-
-##Raised buttons
+##Flat Buttons
 
 Add the md-raised class to create a raised button
 
