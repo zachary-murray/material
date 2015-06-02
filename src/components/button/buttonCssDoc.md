@@ -16,7 +16,28 @@ The base class for all buttons is .md-button. This class is applied automaticall
   }
 ```
 
-The current theme name [eg `.md-button.md-default-theme`] mut be include when customizing Angular Material components. Consider the goal to customize a Flat button with `.btn1` CSS overrides:
+### Theme Requirements
+
+All Angular Material components have specific CSS rules dependent upon the Theme name and theme-class overrides.
+For example, if using the Default theme, then each component will have a `.md-default-theme` class. Standard theme color overrides include optional classes `md-primary`, `md-accent`, and `md-warn`.
+
+When defining custom CSS overrides, developers should create their own class and then append it to the full class specification for that component. For example to define a `.btn1` override to **mdButton**,  use `.md-button.md-default-theme`. 
+
+### CSS Customizations:
+
+Here are `<md-button >` default, flat styles:
+
+![mdbuttonflatdefault2](https://cloud.githubusercontent.com/assets/210413/7940929/925cf486-0919-11e5-9f4d-4a728297f38d.png)
+
+
+|  HTML |  Normal CSS | Hover CSS | Disabled CSS
+|--------|--------|--------|--------|
+| ```html <md-button> Button </md-button> ``` | ```css .md-button.md-default-theme { } ``` | ```css .md-button.md-default-theme { } ``` | ```css .md-button.md-default-theme { } ```|
+
+
+### CSS Customizations
+
+Below are samples of Consider the goal to customize a Flat button with `.btn1` CSS overrides:
 
 ```css
 .md-button.md-default-theme.btn1 {   }            /* for <md-button class="btn1" /> */
