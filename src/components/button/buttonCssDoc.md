@@ -47,8 +47,7 @@ If you have configured a custom theme called `companyX`, then the **fully-specif
 
 Here is the snapshot of the rendered button components using the standard component CSS:
 
-![mdbuttonflatdefault2](https://cloud.githubusercontent.com/assets/210413/7940929/925cf486-0919-11e5-9f4d-4a728297f38d.png)
-
+![mdbuttonflatdefault3](https://cloud.githubusercontent.com/assets/210413/7945984/bda14884-0939-11e5-9196-131ded20ca77.png)
 
 ```html 
 <md-button> Button </md-button> 
@@ -75,7 +74,7 @@ Here is the snapshot of the rendered button components using the standard compon
 
 #### Custom CSS Overrides 
 
-![mdbuttonflatdefault_overrides](https://cloud.githubusercontent.com/assets/210413/7941518/6a59a994-091d-11e5-82cb-14a9a278ce31.png)
+![mdbuttonflatdefault_overrides2](https://cloud.githubusercontent.com/assets/210413/7945987/c1b1c700-0939-11e5-879c-ba804ca03267.png)
 
 
 ```html 
