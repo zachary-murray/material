@@ -1,11 +1,9 @@
 #md-button
 
 
-The base class for all buttons is .md-button. This class is applied automatically to the md-button directive.
+The base class for all buttons is .md-button. This class is applied automatically to the md-button directive. The public base CSS of this component uses the `.md-button` class:
 
-The public css of this class
 ```css
-
 .md-button {      
   padding:        0 6px 0 6px;
   margin:         6px 8px 6px 8px;
@@ -20,7 +18,7 @@ The public css of this class
 
 The current theme name [eg `.md-button.md-default-theme`] mut be include when customizing Angular Material components. Consider the goal to customize a Flat button with `.btn1` CSS overrides:
 
-```css {
+```css
 .md-button.md-default-theme.btn1 {   }            /* for <md-button class="btn1" /> */
 .md-button.md-default-theme.md-primary.btn1 {  }  /* for <md-button class="md-primary btn1" /> */
 ```
