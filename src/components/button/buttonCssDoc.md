@@ -26,12 +26,12 @@ For example, if using the Default theme, then each component will have a `.md-de
 When defining custom CSS overrides, developers should create their own class and then append it to the full class specification for that component. For example to define a `.btn1` override to **mdButton**,  use `.md-button.md-default-theme`.  And if you have configured a custom theme called `companyX`, then the **fully-specified** classname should be `.md-button.md-companyX-theme.btn1`.
 
 <br/>
----
 <br/>
-
 ##Flat Buttons
 
 #### Standard CSS 
+
+Here is the snapshot of the rendered button components using the standard component CSS:
 
 ![mdbuttonflatdefault2](https://cloud.githubusercontent.com/assets/210413/7940929/925cf486-0919-11e5-9f4d-4a728297f38d.png)
 
@@ -70,7 +70,7 @@ When defining custom CSS overrides, developers should create their own class and
 
 #### CSS Custom Overrides 
 
-Let's create a *full-specified* CSS style `.btn1` to override the standard mdButton styles:
+Let's create a **fully-specified** CSS style `.btn1` to override the standard mdButton styles (using the default theme):
 
 ```css
 .md-button.md-default-theme.btn1            {  }  /* for <md-button class="btn1" /> */
@@ -78,6 +78,8 @@ Let's create a *full-specified* CSS style `.btn1` to override the standard mdBut
 .md-button.md-default-theme.md-accent.btn1  {  }  /* for <md-button class="md-accent btn1" /> */
 .md-button.md-default-theme.md-warn.btn1    {  }  /* for <md-button class="md-warn btn1" /> */
 ```
+
+Here is a snapshot of the rendered, customized mbButton components:
 
 ![mdbuttonflatdefault_overrides](https://cloud.githubusercontent.com/assets/210413/7941518/6a59a994-091d-11e5-82cb-14a9a278ce31.png)
 
