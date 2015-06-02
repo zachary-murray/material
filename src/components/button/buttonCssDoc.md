@@ -18,10 +18,16 @@ The public css of this class
   }
 ```
 
+The current theme name [eg `.md-button.md-default-theme`] mut be include when customizing Angular Material components. Consider the goal to customize a Flat button with `.btn1` CSS overrides:
+
+```css {
+.md-button.md-default-theme.btn1 {   }            /* for <md-button class="btn1" /> */
+.md-button.md-default-theme.md-primary.btn1 {  }  /* for <md-button class="md-primary btn1" /> */
+```
+
 ## Flat buttons
 
 Flat Button (with default theme):
-
 
 ![mbbutton_css_customizations_flat](https://cloud.githubusercontent.com/assets/210413/7937957/79bd50e4-0908-11e5-8119-32053ccbad23.png)
 
