@@ -5,6 +5,8 @@ The base class for all buttons is .md-button. This class is applied automaticall
 
 ```css
 .md-button {      
+  font-size:      14px;
+  border-radius:  3px;
   padding:        0 6px 0 6px;
   margin:         6px 8px 6px 8px;
   min-width:      88px;
@@ -23,9 +25,7 @@ For example, if using the Default theme, then each component will have a `.md-de
 
 When defining custom CSS overrides, developers should create their own class and then append it to the full class specification for that component. For example to define a `.btn1` override to **mdButton**,  use `.md-button.md-default-theme`. 
 
-### CSS Customizations:
-
-Here are `<md-button >` default, flat styles:
+#### Standard CSS - Default, Flat Style
 
 ![mdbuttonflatdefault2](https://cloud.githubusercontent.com/assets/210413/7940929/925cf486-0919-11e5-9f4d-4a728297f38d.png)
 
@@ -37,15 +37,13 @@ Here are `<md-button >` default, flat styles:
 ```css
 .md-button.md-default-theme { 
   color : currentColor; # inherits current text color
-  border-radius : 3px;
-  font-size : 14px;
 }
 ```
 
 ##### Hover 
 
 ```css
-.md-button.md-default-theme:not([disabled):hoever { 
+.md-button.md-default-theme:not([disabled):hover { 
   background-color: rgba(158, 158, 158, 0.2);
 }
 ```
@@ -56,30 +54,62 @@ Here are `<md-button >` default, flat styles:
 <md-button disabled> Button </md-button> 
 ```
 ```css
-.md-button.md-default-theme { 
+.md-button.md-default-theme[disabled] { 
   color : rgba(0, 0, 0, 0.26);
   background-color: transparent;
 }
 ```
 
 
-### CSS Customizations
+#### CSS Custom Overrides 
 
-Below are samples of Consider the goal to customize a Flat button with `.btn1` CSS overrides:
+Let's create a *full-specified* CSS style `.btn1` to override the standard mdButton styles:
 
 ```css
-.md-button.md-default-theme.btn1 {   }            /* for <md-button class="btn1" /> */
+.md-button.md-default-theme.btn1            {  }  /* for <md-button class="btn1" /> */
 .md-button.md-default-theme.md-primary.btn1 {  }  /* for <md-button class="md-primary btn1" /> */
+.md-button.md-default-theme.md-accent.btn1  {  }  /* for <md-button class="md-accent btn1" /> */
+.md-button.md-default-theme.md-warn.btn1    {  }  /* for <md-button class="md-warn btn1" /> */
 ```
 
-## Flat buttons
+![mdbuttonflatdefault_overrides](https://cloud.githubusercontent.com/assets/210413/7941518/6a59a994-091d-11e5-82cb-14a9a278ce31.png)
 
-Flat Button (with default theme):
+##### Normal 
 
-![mbbutton_css_customizations_flat](https://cloud.githubusercontent.com/assets/210413/7937957/79bd50e4-0908-11e5-8119-32053ccbad23.png)
+```html 
+<md-button> Button </md-button> 
+```
+```css
+.md-button.md-default-theme.btn1 { 
+  color : rgb(49, 46, 46);
+  background-color: rgba(255, 222, 121, 0.96);
+  border-radius: 10px 0 0 10px;
+  font-size: 16px;
+}
+```
 
-> First row is the default, standard CSS. Second row provides example of CSS customizations
+##### Hover 
 
+```css
+.md-button.md-default-theme.btn1:not([disabled]):hover { 
+  background-color: rgba(107, 103, 91, 0.96);
+  color: white;
+}
+```
+
+##### Disabled 
+
+```html 
+<md-button disabled> Button </md-button> 
+```
+```css
+.md-button.md-default-theme.btn1[disabled] { 
+  color : rgb(187, 187, 187);
+  background-color: rgba(230, 230, 229, 0.96);
+}
+```
+
+----
 
 ##Raised buttons
 
