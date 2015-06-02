@@ -164,7 +164,7 @@ Add the md-fab button in order to create a floating action button.
 
 ![minibutton](https://cloud.githubusercontent.com/assets/1292882/7273617/1fcca280-e8fe-11e4-9588-231a9e860be1.PNG)
 
-In order to create small, mini-FAB buttons (instead of the larger FABs), add the md-mini class
+Add add the `md-mini` class in order to create small, mini-FAB buttons. 
 
 ```html
 <md-button class="md-fab md-mini" aria-label="Eat cake">
