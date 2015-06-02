@@ -30,10 +30,12 @@ Here are `<md-button >` default, flat styles:
 ![mdbuttonflatdefault2](https://cloud.githubusercontent.com/assets/210413/7940929/925cf486-0919-11e5-9f4d-4a728297f38d.png)
 
 
-|  HTML |  Normal CSS | Hover CSS | Disabled CSS
-|--------|--------|--------|--------|
-| ```html <md-button> Button </md-button> ``` | ```css .md-button.md-default-theme { } ``` | ```css .md-button.md-default-theme { } ``` | ```css .md-button.md-default-theme { } ```|
-
+*  HTML <br/> ```html
+<md-button> Button </md-button> 
+```
+*  Normal (CSS) <br/> ```css
+css .md-button.md-default-theme { }
+```
 
 ### CSS Customizations
 
