@@ -126,7 +126,7 @@ Here is a snapshot of the rendered, customized `md-button` components:
 ```
 
 <br/>
-##Flat Buttons
+##Raised Buttons
 
 Add the md-raised class to create a raised button
 
