@@ -52,7 +52,7 @@ If you have configured a custom theme called `companyX`, then the **fully-specif
 ```
 ```css
 .md-button.md-default-theme { 
-  color : currentColor; # inherits current text color
+  color : currentColor; 
 }
 ```
 
