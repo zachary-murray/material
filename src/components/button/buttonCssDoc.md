@@ -108,7 +108,7 @@ If you have configured a custom theme called `companyX`, then the **fully-specif
 
 ![raisedbutton](https://cloud.githubusercontent.com/assets/1292882/7254163/fe898728-e849-11e4-943b-a9cd88ec9573.PNG)
 
-Add the `.md-raised` class to create a raised button
+Add the `.md-raised` class to create a raised button:
 
 ```html
 <md-button class="md-raised">Button</md-button>
@@ -142,7 +142,7 @@ Add the `.md-cornered` class to create a button with corners:
 
 ![floatingbutton](https://cloud.githubusercontent.com/assets/1292882/7254736/8fec7ee8-e84d-11e4-9cf9-58ea9221c3c2.PNG)
 
-Add the `.md-fab` class in order to create a floating action button (aka FAB).
+Add the `.md-fab` class in order to create a floating action button (aka FAB):
 
 ```html
 <md-button class="md-fab" aria-label="Eat cake">
@@ -164,7 +164,7 @@ Add the `.md-fab` class in order to create a floating action button (aka FAB).
 
 ![minibutton](https://cloud.githubusercontent.com/assets/1292882/7273617/1fcca280-e8fe-11e4-9588-231a9e860be1.PNG)
 
-Add add the `.md-mini` class in order to create small, mini-FAB buttons. 
+Add add the `.md-mini` class in order to create small, mini-FAB buttons: 
 
 ```html
 <md-button class="md-fab md-mini" aria-label="Eat cake">
@@ -185,7 +185,7 @@ Add add the `.md-mini` class in order to create small, mini-FAB buttons.
 
 ![iconbutton](https://cloud.githubusercontent.com/assets/1292882/7273908/d701bd8a-e900-11e4-84c7-44c580c7372d.PNG)
 
-Create icon buttons by adding the `<md-icon ...>` class
+Create icon buttons by adding the `<md-icon ...>` class:
 
 ```html
 <md-button class="md-icon-button md-primary" aria-label="Settings">
