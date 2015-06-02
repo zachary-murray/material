@@ -26,19 +26,19 @@ For example, if using the **default** theme, then each component will have a `.m
 When defining custom CSS overrides, developers should create their own class and then append it to the full class style specification for that component. For example, to define a `.btn1` override to **md-button** default theme styles,  use:
 
 ```css
-.md-button.md-default-theme.btn1            {  }  /* for <md-button class="btn1" /> */
-.md-button.md-default-theme.md-primary.btn1 {  }  /* for <md-button class="md-primary btn1" /> */
-.md-button.md-default-theme.md-accent.btn1  {  }  /* for <md-button class="md-accent btn1" /> */
-.md-button.md-default-theme.md-warn.btn1    {  }  /* for <md-button class="md-warn btn1" /> */
+.md-button.md-default-theme.btn1            { ... }  /* for <md-button class="btn1" ...> */
+.md-button.md-default-theme.md-primary.btn1 { ... }  /* for <md-button class="md-primary btn1" ...> */
+.md-button.md-default-theme.md-accent.btn1  { ... }  /* for <md-button class="md-accent btn1" ...> */
+.md-button.md-default-theme.md-warn.btn1    { ... }  /* for <md-button class="md-warn btn1" ...> */
 ```
 
 If you have configured a custom theme called `companyX`, then the **fully-specified** classname will be `.md-button.md-companyX-theme.btn1`.
 
 ```css
-.md-button.md-companyX-theme.btn1            {  }  /* for <md-button class="btn1" /> */
-.md-button.md-companyX-theme.md-primary.btn1 {  }  /* for <md-button class="md-primary btn1" /> */
-.md-button.md-companyX-theme.md-accent.btn1  {  }  /* for <md-button class="md-accent btn1" /> */
-.md-button.md-companyX-theme.md-warn.btn1    {  }  /* for <md-button class="md-warn btn1" /> */
+.md-button.md-companyX-theme.btn1            { ... }  /* for <md-button class="btn1" /> */
+.md-button.md-companyX-theme.md-primary.btn1 { ... }  /* for <md-button class="md-primary btn1" /> */
+.md-button.md-companyX-theme.md-accent.btn1  { ... }  /* for <md-button class="md-accent btn1" /> */
+.md-button.md-companyX-theme.md-warn.btn1    { ... }  /* for <md-button class="md-warn btn1" /> */
 ```
 
 
@@ -116,7 +116,7 @@ Add the md-raised class to create a raised button
 
 ```css
 .md-button.md-default-theme.md-raised:not([disabled]) {
-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
 ```
 
@@ -134,7 +134,7 @@ Add the md-cornered class to create a button with corners:
 ```css
 .md-button.md-default-theme.md-cornered {
     border-radius: 0; 
- }
+}
 ```
 
 <br/>
@@ -192,15 +192,16 @@ Create icon buttons by adding the md-icon class
         <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
 </md-button>
 ```
- ```css
-  .md-button.md-icon-button {
+```css
+.md-button.md-icon-button {
     margin: 0 0.6rem;
     height: 4.8rem;
     min-width: 0;
     line-height: 4.8rem;
     padding-left: 0;
     padding-right: 0;
-    width: 4.8rem; }
+    width: 4.8rem; 
+}
 ```
 
 <br/>
