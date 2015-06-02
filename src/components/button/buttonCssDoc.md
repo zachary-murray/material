@@ -7,25 +7,26 @@ The public css of this class
 ```css
 
 .md-button {      
-  padding:        0 0.6rem;
-  margin:         0.6rem 0.8rem;
-  min-width:      8.8rem;
+  padding:        0 6px 0 6px;
+  margin:         6px 8px 6px 8px;
+  min-width:      88px;
   text-align:     center;
   text-transform: uppercase;
   text-decoration:none;
-  cursor:         pointer;
+  border:         none;
+  outline:        none;
   }
 ```
 
 ## Flat buttons
 
-This is the default button:
-```html
-<md-button>Button</md-button>
-```
+Flat Button (default; with default theme):
 
 
-![flatbutton](https://cloud.githubusercontent.com/assets/1292882/7253450/758633da-e845-11e4-8ae3-adc1ddf4ac98.PNG)
+![mbbutton_css_customizations_flat](https://cloud.githubusercontent.com/assets/210413/7937957/79bd50e4-0908-11e5-8119-32053ccbad23.png)
+
+
+
 
 ##Raised buttons
 
