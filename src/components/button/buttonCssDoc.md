@@ -20,12 +20,12 @@ The public css of this class
 
 ## Flat buttons
 
-Flat Button (default; with default theme):
+Flat Button (with default theme):
 
 
 ![mbbutton_css_customizations_flat](https://cloud.githubusercontent.com/assets/210413/7937957/79bd50e4-0908-11e5-8119-32053ccbad23.png)
 
-
+> First row is the default, standard CSS. Second row provides example of CSS customizations
 
 
 ##Raised buttons
