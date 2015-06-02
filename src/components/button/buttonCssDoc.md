@@ -20,10 +20,13 @@ The base class for all buttons is .md-button. This class is applied automaticall
 
 ### Theme Requirements
 
-All Angular Material components have specific CSS rules dependent upon the Theme name and theme-class overrides.
-For example, if using the Default theme, then each component will have a `.md-default-theme` class. Standard theme color overrides include optional classes `md-primary`, `md-accent`, and `md-warn`.
+All Angular Material components have specific CSS rules dependent upon the **theme** name and theme-class overrides.
+For example, if using the **default** theme, then each component will have a `.md-default-theme` class. Standard theme color overrides include optional classes `md-primary`, `md-accent`, and `md-warn`.
 
-When defining custom CSS overrides, developers should create their own class and then append it to the full class specification for that component. For example to define a `.btn1` override to **mdButton**,  use `.md-button.md-default-theme`.  And if you have configured a custom theme called `companyX`, then the **fully-specified** classname should be `.md-button.md-companyX-theme.btn1`.
+When defining custom CSS overrides, developers should create their own class and then append it to the full class specification for that component. For example:
+
+*  To define a `.btn1` override to **mdButton**,  use `.md-button.md-default-theme`,
+*  If you have configured a custom theme called `companyX`, then the **fully-specified** classname will be `.md-button.md-companyX-theme.btn1`.
 
 <br/>
 <br/>
