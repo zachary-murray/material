@@ -29,7 +29,6 @@ When defining custom CSS overrides, developers should create their own class and
 *  If you have configured a custom theme called `companyX`, then the **fully-specified** classname will be `.md-button.md-companyX-theme.btn1`.
 
 <br/>
-<br/>
 ##Flat Buttons
 
 #### Standard CSS 
