@@ -23,10 +23,24 @@ The base class for all buttons is .md-button. This class is applied automaticall
 All Angular Material components have specific CSS rules dependent upon the **theme** name and theme-class overrides.
 For example, if using the **default** theme, then each component will have a `.md-default-theme` class. Standard theme color overrides include optional classes `md-primary`, `md-accent`, and `md-warn`.
 
-When defining custom CSS overrides, developers should create their own class and then append it to the full class specification for that component. For example:
+When defining custom CSS overrides, developers should create their own class and then append it to the full class specification for that component. For example, to define a `.btn1` override to **md-button** default theme styles,  use:
 
-*  To define a `.btn1` override to **mdButton**,  use `.md-button.md-default-theme`,
-*  If you have configured a custom theme called `companyX`, then the **fully-specified** classname will be `.md-button.md-companyX-theme.btn1`.
+```css
+.md-button.md-default-theme.btn1            {  }  /* for <md-button class="btn1" /> */
+.md-button.md-default-theme.md-primary.btn1 {  }  /* for <md-button class="md-primary btn1" /> */
+.md-button.md-default-theme.md-accent.btn1  {  }  /* for <md-button class="md-accent btn1" /> */
+.md-button.md-default-theme.md-warn.btn1    {  }  /* for <md-button class="md-warn btn1" /> */
+```
+
+If you have configured a custom theme called `companyX`, then the **fully-specified** classname will be `.md-button.md-companyX-theme.btn1`.
+
+```css
+.md-button.md-companyX-theme.btn1            {  }  /* for <md-button class="btn1" /> */
+.md-button.md-companyX-theme.md-primary.btn1 {  }  /* for <md-button class="md-primary btn1" /> */
+.md-button.md-companyX-theme.md-accent.btn1  {  }  /* for <md-button class="md-accent btn1" /> */
+.md-button.md-companyX-theme.md-warn.btn1    {  }  /* for <md-button class="md-warn btn1" /> */
+```
+
 
 <br/>
 ##Flat Buttons
@@ -72,16 +86,7 @@ Here is the snapshot of the rendered button components using the standard compon
 
 #### CSS Custom Overrides 
 
-Let's create a **fully-specified** CSS style `.btn1` to override the standard mdButton styles (using the default theme):
-
-```css
-.md-button.md-default-theme.btn1            {  }  /* for <md-button class="btn1" /> */
-.md-button.md-default-theme.md-primary.btn1 {  }  /* for <md-button class="md-primary btn1" /> */
-.md-button.md-default-theme.md-accent.btn1  {  }  /* for <md-button class="md-accent btn1" /> */
-.md-button.md-default-theme.md-warn.btn1    {  }  /* for <md-button class="md-warn btn1" /> */
-```
-
-Here is a snapshot of the rendered, customized mbButton components:
+Here is a snapshot of the rendered, customized `md-button` components:
 
 ![mdbuttonflatdefault_overrides](https://cloud.githubusercontent.com/assets/210413/7941518/6a59a994-091d-11e5-82cb-14a9a278ce31.png)
 
