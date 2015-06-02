@@ -29,13 +29,39 @@ Here are `<md-button >` default, flat styles:
 
 ![mdbuttonflatdefault2](https://cloud.githubusercontent.com/assets/210413/7940929/925cf486-0919-11e5-9f4d-4a728297f38d.png)
 
+##### Normal 
 
-*  HTML <br/> ```html
+```html 
 <md-button> Button </md-button> 
 ```
-*  Normal (CSS) <br/> ```css
-css .md-button.md-default-theme { }
+```css
+.md-button.md-default-theme { 
+  color : currentColor; # inherits current text color
+  border-radius : 3px;
+  font-size : 14px;
+}
 ```
+
+##### Hover 
+
+```css
+.md-button.md-default-theme:not([disabled):hoever { 
+  background-color: rgba(158, 158, 158, 0.2);
+}
+```
+
+##### Disabled 
+
+```html 
+<md-button disabled> Button </md-button> 
+```
+```css
+.md-button.md-default-theme { 
+  color : rgba(0, 0, 0, 0.26);
+  background-color: transparent;
+}
+```
+
 
 ### CSS Customizations
 
