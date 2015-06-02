@@ -25,6 +25,9 @@ For example, if using the Default theme, then each component will have a `.md-de
 
 When defining custom CSS overrides, developers should create their own class and then append it to the full class specification for that component. For example to define a `.btn1` override to **mdButton**,  use `.md-button.md-default-theme`. 
 
+---
+<br/>
+
 #### Standard CSS - Default, Flat Style
 
 ![mdbuttonflatdefault2](https://cloud.githubusercontent.com/assets/210413/7940929/925cf486-0919-11e5-9f4d-4a728297f38d.png)
@@ -60,6 +63,7 @@ When defining custom CSS overrides, developers should create their own class and
 }
 ```
 
+<br/>
 
 #### CSS Custom Overrides 
 
@@ -77,7 +81,7 @@ Let's create a *full-specified* CSS style `.btn1` to override the standard mdBut
 ##### Normal 
 
 ```html 
-<md-button> Button </md-button> 
+<md-button class="btn1"> Button </md-button> 
 ```
 ```css
 .md-button.md-default-theme.btn1 { 
@@ -100,7 +104,7 @@ Let's create a *full-specified* CSS style `.btn1` to override the standard mdBut
 ##### Disabled 
 
 ```html 
-<md-button disabled> Button </md-button> 
+<md-button class="btn1" disabled> Button </md-button> 
 ```
 ```css
 .md-button.md-default-theme.btn1[disabled] { 
@@ -109,7 +113,8 @@ Let's create a *full-specified* CSS style `.btn1` to override the standard mdBut
 }
 ```
 
-----
+---
+<br/>
 
 ##Raised buttons
 
