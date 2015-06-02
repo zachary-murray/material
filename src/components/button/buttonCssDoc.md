@@ -45,13 +45,10 @@ If you have configured a custom theme called `companyX`, then the **fully-specif
 <br/>
 ##Flat Buttons
 
-#### Standard CSS 
-
 Here is the snapshot of the rendered button components using the standard component CSS:
 
 ![mdbuttonflatdefault2](https://cloud.githubusercontent.com/assets/210413/7940929/925cf486-0919-11e5-9f4d-4a728297f38d.png)
 
-##### Normal 
 
 ```html 
 <md-button> Button </md-button> 
@@ -62,18 +59,10 @@ Here is the snapshot of the rendered button components using the standard compon
 }
 ```
 
-##### Hover 
-
 ```css
 .md-button.md-default-theme:not([disabled):hover { 
   background-color: rgba(158, 158, 158, 0.2);
 }
-```
-
-##### Disabled 
-
-```html 
-<md-button disabled> Button </md-button> 
 ```
 ```css
 .md-button.md-default-theme[disabled] { 
@@ -84,13 +73,10 @@ Here is the snapshot of the rendered button components using the standard compon
 
 <br/>
 
-#### CSS Custom Overrides 
-
-Here is a snapshot of the rendered, customized `md-button` components:
+#### Custom CSS Overrides 
 
 ![mdbuttonflatdefault_overrides](https://cloud.githubusercontent.com/assets/210413/7941518/6a59a994-091d-11e5-82cb-14a9a278ce31.png)
 
-##### Normal 
 
 ```html 
 <md-button class="btn1"> Button </md-button> 
@@ -104,8 +90,6 @@ Here is a snapshot of the rendered, customized `md-button` components:
 }
 ```
 
-##### Hover 
-
 ```css
 .md-button.md-default-theme.btn1:not([disabled]):hover { 
   background-color: rgba(107, 103, 91, 0.96);
@@ -113,11 +97,6 @@ Here is a snapshot of the rendered, customized `md-button` components:
 }
 ```
 
-##### Disabled 
-
-```html 
-<md-button class="btn1" disabled> Button </md-button> 
-```
 ```css
 .md-button.md-default-theme.btn1[disabled] { 
   color : rgb(187, 187, 187);
@@ -128,23 +107,24 @@ Here is a snapshot of the rendered, customized `md-button` components:
 <br/>
 ##Raised Buttons
 
+![raisedbutton](https://cloud.githubusercontent.com/assets/1292882/7254163/fe898728-e849-11e4-943b-a9cd88ec9573.PNG)
+
 Add the md-raised class to create a raised button
 
 ```html
 <md-button class="md-raised">Button</md-button>
 ```
 
-![raisedbutton](https://cloud.githubusercontent.com/assets/1292882/7254163/fe898728-e849-11e4-943b-a9cd88ec9573.PNG)
-
-This is the css declaration of the class
-
 ```css
-.md-button.md-raised:not([disabled]) {
+.md-button.md-default-theme.md-raised:not([disabled]) {
 box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
 }
 ```
 
+<br/>
 ##Cornered buttons
+
+![corneredbutton](https://cloud.githubusercontent.com/assets/1292882/7254379/682592ac-e84b-11e4-8d33-78314cea8bda.PNG)
 
 Add the md-cornered class to create a button with corners:
 
@@ -152,64 +132,59 @@ Add the md-cornered class to create a button with corners:
 <md-button class="md-raised md-cornered">Button</md-button>
 ```
 
-
-![corneredbutton](https://cloud.githubusercontent.com/assets/1292882/7254379/682592ac-e84b-11e4-8d33-78314cea8bda.PNG)
-
-This is the css declaration of the class
-
 ```css
- .md-button.md-cornered {
+.md-button.md-default-theme.md-cornered {
     border-radius: 0; 
  }
 ```
 
-##Floating action buttons (FAB buttons)
-
-###Default FAB buttons
-
-Add the md-fab button in order to create a floating action button.
-```html
-       <md-button class="md-fab" aria-label="Eat cake">
-            <md-icon md-svg-src="img/icons/cake.svg"></md-icon>
-        </md-button>
-```
+<br/>
+##Default FAB Button
 
 ![floatingbutton](https://cloud.githubusercontent.com/assets/1292882/7254736/8fec7ee8-e84d-11e4-9cf9-58ea9221c3c2.PNG)
 
-The css declaration of the md-fab button is
-
-```css
-  .md-button.md-fab {
-    line-height: 5.6rem;
-    min-width: 0;
-    width: 5.6rem;
-    height: 5.6rem;
-    border-radius: 50%;
-   }
-```
-
-###Mini FAB buttons
-
-In order to create small FAB buttons add the md-mini class
+Add the md-fab button in order to create a floating action button.
 
 ```html
-<md-button class="md-fab md-mini" aria-label="Eat cake">
-            <md-icon md-svg-src="img/icons/cake.svg"></md-icon>
+<md-button class="md-fab" aria-label="Eat cake">
+	<md-icon md-svg-src="img/icons/cake.svg"></md-icon>
 </md-button>
 ```
-The small button is on the right side:
+```css
+.md-button.md-default-theme.md-fab {
+	line-height: 5.6rem;
+	min-width: 0;
+	width: 5.6rem;
+	height: 5.6rem;
+	border-radius: 50%;
+}
+```
+
+<br/>
+##Mini FAB Button
 
 ![minibutton](https://cloud.githubusercontent.com/assets/1292882/7273617/1fcca280-e8fe-11e4-9588-231a9e860be1.PNG)
 
-The css declaration of the md-mini class is
-```css
-.md-button.md-fab.md-mini {
-      line-height: 4rem;
-      width: 4rem;
-      height: 4rem; }
+In order to create small FAB buttons, add the md-mini class
+
+```html
+<md-button class="md-fab md-mini" aria-label="Eat cake">
+	<md-icon md-svg-src="img/icons/cake.svg"></md-icon>
+</md-button>
 ```
 
-##Icon button
+```css
+.md-button.md-default-theme.md-fab.md-mini {
+      line-height: 4rem;
+      width: 4rem;
+      height: 4rem;
+}
+```
+
+<br/>
+##Icon button using SVGs
+
+![iconbutton](https://cloud.githubusercontent.com/assets/1292882/7273908/d701bd8a-e900-11e4-84c7-44c580c7372d.PNG)
 
 Create icon buttons by adding the md-icon class
 
@@ -218,10 +193,6 @@ Create icon buttons by adding the md-icon class
         <md-icon md-svg-icon="img/icons/menu.svg"></md-icon>
 </md-button>
 ```
-
-![iconbutton](https://cloud.githubusercontent.com/assets/1292882/7273908/d701bd8a-e900-11e4-84c7-44c580c7372d.PNG)
-
-The css decalaration of the md-icon-button is 
  ```css
   .md-button.md-icon-button {
     margin: 0 0.6rem;
@@ -233,16 +204,20 @@ The css decalaration of the md-icon-button is
     width: 4.8rem; }
 ```
 
+<br/>
+##Icon button using Font-icons
+
+
+![fonticonbutton](https://cloud.githubusercontent.com/assets/1292882/7670414/f57721ba-fcab-11e4-9a22-67970063797c.PNG)
 
 Here is another example of a button with font icons:
 
 ```html
 <md-button>
  <md-icon md-font-icon="icon-home" 
-   ng-style="{color: 'green', 'font-size':'36px', height:'36px'}" >
+          ng-style="{color: 'green', 'font-size':'36px', height:'36px'}" >
  </md-icon>
 </md-button>
 ```
 
 
-![fonticonbutton](https://cloud.githubusercontent.com/assets/1292882/7670414/f57721ba-fcab-11e4-9a22-67970063797c.PNG)
