@@ -5,11 +5,11 @@ The base class for all buttons is .md-button. This class is applied automaticall
 
 ```css
 .md-button {      
-  font-size:      14px;
-  border-radius:  3px;
   padding:        0 6px 0 6px;
   margin:         6px 8px 6px 8px;
   min-width:      88px;
+  border-radius:  3px;
+  font-size:      14px;
   text-align:     center;
   text-transform: uppercase;
   text-decoration:none;
