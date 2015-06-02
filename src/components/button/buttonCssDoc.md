@@ -15,7 +15,7 @@ The base class for all buttons is .md-button. This class is applied automaticall
   text-decoration:none;
   border:         none;
   outline:        none;
-  }
+}
 ```
 
 ### Theme Requirements
