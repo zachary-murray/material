@@ -45,8 +45,6 @@ If you have configured a custom theme called `companyX`, then the **fully-specif
 <br/>
 ##Flat Buttons
 
-Here is the snapshot of the rendered button components using the standard component CSS:
-
 ![mdbuttonflatdefault3](https://cloud.githubusercontent.com/assets/210413/7945984/bda14884-0939-11e5-9196-131ded20ca77.png)
 
 ```html 
