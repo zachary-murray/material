@@ -1,6 +1,6 @@
 #&lt;md-button&gt;
 
-Below is a snapshot of the Angular Material Button demos with the default themes and standard options:
+Below is a snapshot of the Angular Material **button** component demos with the default themes and standard options:
 
 ![buttonsdemo](https://cloud.githubusercontent.com/assets/210413/7947020/fafde934-093f-11e5-9584-27eb2deedd0f.png)
 
