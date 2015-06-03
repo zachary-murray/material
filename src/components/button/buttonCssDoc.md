@@ -59,7 +59,7 @@ If you have configured a custom theme called `companyX`, then the **fully-specif
 ```
 
 ```css
-.md-button.md-default-theme:not([disabled):hover { 
+.md-button.md-default-theme:not([disabled]):hover { 
   background-color: rgba(158, 158, 158, 0.2);
 }
 ```
