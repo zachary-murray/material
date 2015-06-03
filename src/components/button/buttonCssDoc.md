@@ -1,4 +1,4 @@
-#<md-button>
+#&lt;md-button&gt;
 
 Below is a snapshot of the Angular Material Button demos with the default themes and standard options:
 
