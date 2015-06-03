@@ -6,7 +6,7 @@ Below is a snapshot of the Angular Material **button** component demos with the 
 
 ### CSS Styles
 
-The base class for all buttons is .md-button. This class is applied automatically to the `<md-button .../>` directive. The public base CSS of this component uses the `.md-button` class:
+The base class for all buttons is `.md-button`. This class is applied automatically to the `<md-button .../>` directive:
 
 ```css
 .md-button {      
