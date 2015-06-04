@@ -39,10 +39,12 @@ function AriaService($$rAF, $log, $window) {
         if (!hasValue(label)) {
           var msg = 'ARIA: Attribute "aria-label" is required for accessibility. ';
               msg = msg + 'Please specify an "aria-label" or a "placeholder" attribute ';
-              msg = msg + 'on either the ' + parentEl[0].tagName + ' element ';
-              msg = msg + 'or its nested ' + inputEl[0].tagName + ' element.';
+              msg = msg + 'on the ' + parentEl[0].tagName + ' element ';
+              if (inputEl[0]) {
+                msg = msg + 'or its nested ' + inputEl[0].tagName + ' element.';
+              };
 
-          $log.warn(msg);
+          $log.warn(msg, parentEl);
         }
       }
 
