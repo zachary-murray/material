@@ -99,7 +99,6 @@
             ng-class="{\'md-focused\': $mdChipsCtrl.selectedChip == $index}">\
           <div class="md-chip-content"\
               tabindex="-1"\
-              aria-hidden="true"\
               ng-focus="!$mdChipsCtrl.readonly && $mdChipsCtrl.selectChip($index)"\
               md-chip-transclude="$mdChipsCtrl.chipContentsTemplate"></div>\
           <div class="md-chip-remove-container"\
@@ -235,7 +234,7 @@
         mdChipsCtrl.chipInputTemplate    = chipInputTemplate;
 
         element
-            .attr({ ariaHidden: true, tabindex: -1 })
+            .attr({ tabindex: -1 })
             .on('focus', function () { mdChipsCtrl.onFocus(); });
 
         var timeoutFns = [];
