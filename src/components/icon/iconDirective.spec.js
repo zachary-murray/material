@@ -21,43 +21,50 @@ describe('mdIcon directive', function() {
         $compile = _$compile_;
     }));
 
-    describe('using font-icons with deprecated md-font-icon=""', function() {
+    ddescribe('using font-icons with deprecated md-font-icon=""', function() {
 
       it('should render correct HTML with md-font-icon value as class', function() {
         el = make( '<md-icon md-font-icon="android"></md-icon>');
-        expect(el.html()).toEqual('<span class="md-font  android" ng-class="fontIcon"></span>');
+        expect(html(el)).toEqual('<span class="md-font android"></span>');
       });
 
       it('should transclude class specifiers', function() {
         el = make( '<md-icon md-font-icon="android" class="material-icons"></md-icon>');
-        expect(el.html()).toEqual('<span class="md-font material-icons android" ng-class="fontIcon"></span>');
+        expect(html(el)).toEqual('<span class="md-font material-icons android"></span>');
       });
 
       it('should not render any inner content if the md-font-icon value is empty', function() {
         el = make( '<md-icon md-font-icon=""></md-icon>' );
-        expect(el.html()).toEqual('');
+        expect(html(el)).toEqual('<div class="md-icon"></div>');
       });
 
     });
 
-    describe('using font-icons with ligatures: md-font-set=""', function() {
+    ddescribe('using font-icons with ligatures: md-font-set=""', function() {
 
-      it('should render correct HTML with ligatures', function() {
+      it('should render correct HTML with ligatures and dynamic size', function() {
+        el = make( '<md-icon ng-class="fontSize">face</md-icon>');
+        $scope.$apply("fontSize={ \'md-36\': true }");
+
+        expect(html(el)).toEqual('<span class="material-icons md-36"><span>face</span></span>');
+      });
+
+      it('should render correct HTML with ligatures and static size', function() {
         el = make( '<md-icon class="md-48">face</md-icon>');
-        expect(el.html()).toEqual('<span class="material-icons md-48" ng-transclude=""><span class="ng-scope">face</span></span>');
+        expect(html(el)).toEqual('<span class="md-48 material-icons"><span>face</span></span>');
       });
 
       it('should render correctly using a md-font-set alias', function() {
         $mdIconProvider.fontSet('fa', 'fontawesome');
 
         el = make( '<md-icon md-font-set="fa">email</md-icon>');
-        expect(el.html()).toEqual('<span class="fontawesome" ng-transclude=""><span class="ng-scope">email</span></span>');
+        expect(html(el)).toEqual('<span class="fontawesome"><span>email</span></span>');
       });
 
       it('should render correctly using md-font-set value as class', function() {
 
         el = make( '<md-icon md-font-set="fontawesome">email</md-icon>');
-        expect(el.html()).toEqual('<span class="fontawesome" ng-transclude=""><span class="ng-scope">email</span></span>');
+        expect(html(el)).toEqual('<span class="fontawesome"><span>email</span></span>');
       });
     });
 
@@ -224,5 +231,28 @@ describe('mdIcon directive', function() {
     return el;
   }
 
+  /**
+   * Utility to remove extra attributes to the specs are easy to compare
+   */
+  function html(element, excludeAria) {
+    var results = element[0].outerHTML
+          .replace(/ng-transclude=\"\"|ng-scope|md-default-theme|ng-isolate-scope/gi,'')
+          .replace(/md-font-set=\"[a-zA-Z0-9]*\"/g,'')
+          .replace(/md-font-icon=\"[\{\}a-zA-Z0-9]*\"/g,'')
+          .replace(/ng-class=\"[a-zA-Z]*\"/g,'');
+
+    if ( !excludeAria ) {
+      results = results
+        .replace(/aria-label=\"[a-zA-Z]*\"/g,'')
+        .replace(/role=\"[a-zA-Z]*\"/g,'');
+    }
+
+    return results
+      .replace(/\s\s+/g,' ')
+      .replace(/class=\"\"/g,'')
+      .replace(/=\"\s+/g,'="')
+      .replace(/\s+\>/g,'>')
+      .replace(/\s+\"/g,'"');
+  }
 
 });

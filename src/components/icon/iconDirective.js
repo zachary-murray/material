@@ -145,9 +145,11 @@ function mdIconDirective($mdIcon, $mdTheming, $mdAria, $interpolate ) {
       fontSet : '@mdFontSet',
       fontIcon: '@mdFontIcon',
       svgIcon : '@mdSvgIcon',
-      svgSrc  : '@mdSvgSrc'
+      svgSrc  : '@mdSvgSrc',
+      ngClass : '@'
     },
     restrict: 'E',
+    replace:true,
     transclude:true,
     template: getTemplate,
     link: postLink
@@ -161,19 +163,20 @@ function mdIconDirective($mdIcon, $mdTheming, $mdAria, $interpolate ) {
     // If using the deprecated md-font-icon API
     // If using ligature-based font-icons, transclude the ligature or NRCs
 
+    var tmplSVG      = '<div  class="md-icon" ng-transclude></div>';
     var tmplFontIcon = '<span class="md-font {{classNames}}" ng-class="fontIcon"></span>';
     var tmplFontSet  = '<span class="{{classNames}}" ng-transclude></span>';
 
-    var tmpl = hasAttrValue('mdSvgIcon')     ? ''           :
-               hasAttrValue('mdSvgSrc')      ? ''           :
-               isEmptyAttr('mdFontIcon')     ? ''           :
+    var tmpl = hasAttrValue('mdSvgIcon')     ? tmplSVG      :
+               hasAttrValue('mdSvgSrc')      ? tmplSVG      :
+               isEmptyAttr('mdFontIcon')     ? tmplSVG      :
                hasAttrValue('mdFontIcon')    ? tmplFontIcon : tmplFontSet;
 
     // If available, lookup the fontSet style and add to the list of classnames
     // NOTE: Material Icons expects classnames like `.material-icons.md-48` instead of `.material-icons .md-48`
 
     var names = (tmpl == tmplFontSet) ? $mdIcon.fontSet(attrValue('mdFontSet'))  + ' ' : '';
-        names = (names + attrValue('class')).trim();
+        //names = (names + attrValue('class')).trim();
 
     return $interpolate( tmpl )({ classNames: names });
   }
@@ -207,7 +210,7 @@ function mdIconDirective($mdIcon, $mdTheming, $mdAria, $interpolate ) {
       }
     }
 
-    if (attrName) {
+    if ( attrName ) {
       // Use either pre-configured SVG or URL source, respectively.
       attr.$observe(attrName, function(attrVal) {
 
@@ -220,6 +223,7 @@ function mdIconDirective($mdIcon, $mdTheming, $mdAria, $interpolate ) {
 
       });
     }
+
     function parentsHaveText() {
       var parent = element.parent();
       if (parent.attr('aria-label') || parent.text()) {
