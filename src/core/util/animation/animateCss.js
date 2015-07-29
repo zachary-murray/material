@@ -1,6 +1,7 @@
-//if (angular.injector(['ngAnimate']).has('$animateCss')) {
+"use strict";
+
 if (angular.version.minor >= 4) {
-  angular.module('material.animate', ['ngAnimate']);
+  angular.module('material.animate', []);
 } else {
 (function() {
 
@@ -134,7 +135,7 @@ if (angular.version.minor >= 4) {
     return AnimateRunner;
   }];
 
-  angular.module('material.animate', ['ngAnimate'])
+  angular.module('material.animate', [])
 
     .factory('$$forceReflow', $$ForceReflowFactory)
     .factory('$$AnimateRunner', $$AnimateRunnerFactory)

@@ -5,7 +5,8 @@
  */
 angular
   .module('material.core', [
-    'material.animate',          // for ngAnimate && $animateCss polyfill with Angular < 1.4
+    'ngAnimate',                 // Core uses $animate
+    'material.animate',          // for $animateCss polyfill with Angular < 1.4
     'material.core.gestures',    // for $mdGesture
     'material.core.theming'      // for $mdTheme
   ])
