@@ -878,18 +878,19 @@ function SelectProvider($$interimElementProvider) {
        */
       function showBackdrop(scope, element, options) {
 
+        // If we are not within a dialog...
+        // !! DO this before creating the backdrop
+        if (options.disableParentScroll && !$mdUtil.getClosest(options.target, 'MD-DIALOG')) {
+          options.restoreScroll = $mdUtil.disableScrollAround(options.element, options.parent);
+        } else {
+          options.disableParentScroll = false;
+        }
+
         if (options.hasBackdrop) {
           options.backdrop = $mdUtil.createBackdrop(scope, "md-select-backdrop md-click-catcher");
 
           // Override duration to immediately show invisible backdrop
           $animate.enter(options.backdrop, options.parent, null, {duration:0});
-        }
-
-        // If we are not within a dialog...
-        if (options.disableParentScroll && !$mdUtil.getClosest(options.target, 'MD-DIALOG')) {
-          options.restoreScroll = $mdUtil.disableScrollAround(options.element, options.parent);
-        } else {
-          options.disableParentScroll = false;
         }
 
         /**

@@ -40,18 +40,19 @@ function MenuProvider($$interimElementProvider) {
       */
      function showBackdrop(scope, element, options) {
 
+       // If we are not within a dialog...
+       if (options.disableParentScroll && !$mdUtil.getClosest(options.target, 'MD-DIALOG')) {
+          // !! DO this before creating the backdrop
+         options.restoreScroll = $mdUtil.disableScrollAround(options.element,options.parent);
+       } else {
+         options.disableParentScroll = false;
+       }
+
        if (options.hasBackdrop) {
          options.backdrop = $mdUtil.createBackdrop(scope, "md-menu-backdrop md-click-catcher");
 
          //options.parent.append(options.backdrop);
          $animate.enter(options.backdrop, options.parent);
-       }
-
-       // If we are not within a dialog...
-       if (options.disableParentScroll && !$mdUtil.getClosest(options.target, 'MD-DIALOG')) {
-         options.restoreScroll = $mdUtil.disableScrollAround(options.element,options.parent);
-       } else {
-         options.disableParentScroll = false;
        }
 
        /**

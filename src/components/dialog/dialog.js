@@ -605,13 +605,14 @@ function MdDialogProvider($$interimElementProvider) {
      */
     function showBackdrop(scope, element, options) {
 
+      if (options.disableParentScroll) {
+        // !! DO this before creating the backdrop
+        options.restoreScroll = $mdUtil.disableScrollAround(element, options.parent);
+      }
+
       if (options.hasBackdrop) {
         options.backdrop = $mdUtil.createBackdrop(scope, "md-dialog-backdrop md-opaque");
         $animate.enter(options.backdrop, options.parent);
-      }
-
-      if (options.disableParentScroll) {
-        options.restoreScroll = $mdUtil.disableScrollAround(element, options.parent);
       }
 
       /**
