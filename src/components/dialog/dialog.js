@@ -534,9 +534,6 @@ function MdDialogProvider($$interimElementProvider) {
       // In case the user provides a raw dom element, always wrap it in jqLite
       options.parent = angular.element(options.parent || $rootElement);
 
-      if (options.disableParentScroll) {
-        options.restoreScroll = $mdUtil.disableScrollAround(element, options.parent);
-      }
     }
 
     /**
@@ -613,6 +610,10 @@ function MdDialogProvider($$interimElementProvider) {
         $animate.enter(options.backdrop, options.parent);
       }
 
+      if (options.disableParentScroll) {
+        options.restoreScroll = $mdUtil.disableScrollAround(element, options.parent);
+      }
+
       /**
        * Hide modal backdrop element...
        */
@@ -622,6 +623,7 @@ function MdDialogProvider($$interimElementProvider) {
         }
         if (options.disableParentScroll) {
           options.restoreScroll();
+          delete options.restoreScroll;
         }
 
         options.hideBackdrop = null;
