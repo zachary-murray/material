@@ -980,7 +980,9 @@ function SelectProvider($$interimElementProvider) {
             .then(function () {
                 scope.$$loadingAsyncDone = true;
                 delete opts.loadingAsync;
-            });
+            }).then(function(){
+              $$rAF( positionAndFocusMenu );
+            })
         }
       }
 
@@ -1042,9 +1044,8 @@ function SelectProvider($$interimElementProvider) {
                   target: option
                 });
                 ev.preventDefault();
-              } else {
-                checkCloseMenu();
               }
+              checkCloseMenu();
               break;
             case $mdConstant.KEY_CODE.TAB:
             case $mdConstant.KEY_CODE.ESCAPE:
@@ -1092,7 +1093,7 @@ function SelectProvider($$interimElementProvider) {
         }
 
         function checkCloseMenu(ev) {
-          if (( ev.type == 'mouseup') && (ev.currentTarget != dropDown[0])) return;
+          if (ev && ( ev.type == 'mouseup') && (ev.currentTarget != dropDown[0])) return;
 
           if (!selectCtrl.isMultiple) {
             opts.restoreFocus = true;
@@ -1167,7 +1168,7 @@ function SelectProvider($$interimElementProvider) {
         optionNodes = selectNode.getElementsByTagName('md-option'),
         optgroupNodes = selectNode.getElementsByTagName('md-optgroup');
 
-      var loading = angular.isDefined(opts.loadingAsync);
+      var loading = isPromiseLike(opts.loadingAsync);
       var centeredNode;
       if ( !loading ) {
         // If a selected node, center around that
@@ -1277,8 +1278,15 @@ function SelectProvider($$interimElementProvider) {
           }
         }
       };
+
+
+
     }
 
+  }
+
+  function isPromiseLike(obj) {
+    return obj && angular.isFunction(obj.then);
   }
 
   function clamp(min, n, max) {

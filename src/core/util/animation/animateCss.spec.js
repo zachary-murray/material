@@ -3,7 +3,7 @@ describe('$animateCss', function() {
   var jqLite = angular.element;
   var forEach = angular.forEach;
 
-  beforeEach(module('material.animate','ngAnimate'));
+  beforeEach(module('ngAnimateMock','material.animate'));
 
   function assertHasClass(element, className, not) {
     expect(element.hasClass(className)).toBe(!not);
