@@ -1,4 +1,4 @@
-ddescribe('$mdDialog', function() {
+describe('$mdDialog', function() {
   var triggerAnimation;
 
   beforeEach(module('material.components.dialog'));
