@@ -79,7 +79,7 @@ function MenuProvider($$interimElementProvider) {
 
       return $animateCss(element, {addClass: 'md-leave'})
         .start()
-        .then(function () {
+        .then(function() {
           element.removeClass('md-active');
           opts.hideBackdrop();
 
@@ -104,7 +104,7 @@ function MenuProvider($$interimElementProvider) {
 
       // Return the promise for when our menu is done animating in
       return showMenu()
-        .then(function (response) {
+        .then(function(response) {
           opts.alreadyOpen = true;
           opts.cleanupInteraction = activateInteraction();
           return response;
@@ -116,11 +116,11 @@ function MenuProvider($$interimElementProvider) {
       function showMenu() {
         opts.parent.append(element);
 
-        return $q(function (resolve) {
+        return $q(function(resolve) {
 
           $animateCss(element, {removeClass: 'md-leave', duration: 0})
             .start()
-            .then(function () {
+            .then(function() {
               var position = calculateMenuPosition(element, opts);
 
               // Animate the menu scaling, and opacity [from its position origin (default == top-left)]
@@ -160,8 +160,8 @@ function MenuProvider($$interimElementProvider) {
        */
       function startRepositioningOnResize() {
 
-        var repositionMenu = (function (target, options) {
-          return $$rAF.throttle(function () {
+        var repositionMenu = (function(target, options) {
+          return $$rAF.throttle(function() {
             if (opts.isRemoved) return;
             var position = calculateMenuPosition(target, options);
 
@@ -169,14 +169,15 @@ function MenuProvider($$interimElementProvider) {
           });
         })(element, opts);
 
-        $window.on('resize', repositionMenu);
-        $window.on('orientationchange', repositionMenu);
+        $window.addEventListener('resize', repositionMenu);
+        $window.addEventListener('orientationchange', repositionMenu);
 
         return function stopRepositioningOnResize() {
 
           // Disable resizing handlers
-          $window.off('resize', repositionMenu);
-          $window.off('orientationchange', repositionMenu);
+          $window.removeEventListener('resize', repositionMenu);
+          $window.removeEventListener('orientationchange', repositionMenu);
+
         }
       }
 
@@ -214,7 +215,7 @@ function MenuProvider($$interimElementProvider) {
         // ************************************
 
         function onMenuKeyDown(ev) {
-          scope.$apply(function () {
+          scope.$apply(function() {
             var keyCodes = $mdConstant.KEY_CODE;
             switch (ev.keyCode) {
               case keyCodes.ESCAPE:
@@ -233,7 +234,7 @@ function MenuProvider($$interimElementProvider) {
         function onBackdropClick(e) {
           e.preventDefault();
           e.stopPropagation();
-          scope.$apply(function () {
+          scope.$apply(function() {
             opts.mdMenuCtrl.close(true);
           });
         }
@@ -254,7 +255,7 @@ function MenuProvider($$interimElementProvider) {
           } while (target = target.parentNode)
 
           function close() {
-            scope.$apply(function () {
+            scope.$apply(function() {
               opts.mdMenuCtrl.close();
             });
           }
@@ -440,7 +441,7 @@ function MenuProvider($$interimElementProvider) {
        */
       function firstVisibleChild() {
         for (var i = 0; i < openMenuNode.children.length; ++i) {
-          if ($window[0].getComputedStyle(openMenuNode.children[i]).display != 'none') {
+          if ($window.getComputedStyle(openMenuNode.children[i]).display != 'none') {
             return openMenuNode.children[i];
           }
         }

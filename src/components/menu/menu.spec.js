@@ -1,18 +1,18 @@
-describe('md-menu directive', function () {
+describe('md-menu directive', function() {
   var $mdMenu, $timeout, something;
 
   beforeEach(module('material.components.menu'));
-  beforeEach(inject(function ($mdUtil, $$q, $document, _$mdMenu_, _$timeout_) {
+  beforeEach(inject(function($mdUtil, $$q, $document, _$mdMenu_, _$timeout_) {
     $mdMenu = _$mdMenu_;
     $timeout = _$timeout_;
     var abandonedMenus = $document[0].querySelectorAll('.md-menu-container');
     angular.element(abandonedMenus).remove();
   }));
-  afterEach(function () {
+  afterEach(function() {
     something = false;
   });
 
-  it('errors on invalid markup', inject(function ($compile, $rootScope) {
+  it('errors on invalid markup', inject(function($compile, $rootScope) {
     function buildBadMenu() {
       $compile('<md-menu></md-menu>')($rootScope);
     }
@@ -20,14 +20,13 @@ describe('md-menu directive', function () {
     expect(buildBadMenu).toThrow();
   }));
 
-
-  it('removes everything but the first element', function () {
+  it('removes everything but the first element', function() {
     var menu = setup()[0];
     expect(menu.children.length).toBe(1);
     expect(menu.firstElementChild.nodeName).toBe('BUTTON');
   });
 
-  it('opens on click', function () {
+  it('opens on click', function() {
     var menu = setup();
     openMenu(menu);
     expect(getOpenMenuContainer().length).toBe(1);
@@ -35,9 +34,9 @@ describe('md-menu directive', function () {
     expect(getOpenMenuContainer().length).toBe(0);
   });
 
-  it('should not propagate the click event', function () {
+  it('should not propagate the click event', function() {
     var clickDetected = false, menu = setup();
-    menu.on('click', function () {
+    menu.on('click', function() {
       clickDetected = true;
     });
 
@@ -47,7 +46,7 @@ describe('md-menu directive', function () {
     expect(clickDetected).toBe(false);
   });
 
-  it('closes on backdrop click', inject(function ($document) {
+  it('closes on backdrop click', inject(function($document) {
     openMenu(setup());
 
     expect(getOpenMenuContainer().length).toBe(1);
@@ -58,7 +57,7 @@ describe('md-menu directive', function () {
     expect(getOpenMenuContainer().length).toBe(0);
   }));
 
-  it('closes on escape', inject(function ($document, $mdConstant) {
+  it('closes on escape', inject(function($document, $mdConstant) {
     openMenu(setup());
     expect(getOpenMenuContainer().length).toBe(1);
 
@@ -71,7 +70,7 @@ describe('md-menu directive', function () {
   }));
 
   describe('closes with -', function() {
-    it('closes on normal option click', function () {
+    it('closes on normal option click', function() {
       expect(getOpenMenuContainer().length).toBe(0);
 
       openMenu(setup());
@@ -80,7 +79,7 @@ describe('md-menu directive', function () {
       expect(getOpenMenuContainer().length).toBe(1);
 
       var btn = getOpenMenuContainer()[0].querySelector('md-button');
-          btn.click();
+      btn.click();
 
       waitForMenuClose();
 
@@ -91,7 +90,7 @@ describe('md-menu directive', function () {
 
     itClosesWithAttributes([
       'data-ng-click', 'x-ng-click',
-      'ui-sref','data-ui-sref', 'x-ui-sref',
+      'ui-sref', 'data-ui-sref', 'x-ui-sref',
       'ng-href', 'data-ng-href', 'x-ng-href'
     ]);
 
@@ -116,7 +115,7 @@ describe('md-menu directive', function () {
           expect(getOpenMenuContainer().length).toBe(1);
 
           var btn = getOpenMenuContainer()[0].querySelector('md-button');
-              btn.click();
+          btn.click();
 
           waitForMenuClose();
 
@@ -142,8 +141,8 @@ describe('md-menu directive', function () {
         ' </md-menu-content>' +
         '</md-menu>';
 
-    inject(function ($compile, $rootScope) {
-      $rootScope.doSomething = function ($event) {
+    inject(function($compile, $rootScope) {
+      $rootScope.doSomething = function($event) {
         something = true;
       };
       menu = $compile(template)($rootScope);
@@ -154,7 +153,7 @@ describe('md-menu directive', function () {
 
   function getOpenMenuContainer() {
     var res;
-    inject(function ($document) {
+    inject(function($document) {
       res = angular.element($document[0].querySelector('.md-open-menu-container'));
     });
     return res;
@@ -167,14 +166,14 @@ describe('md-menu directive', function () {
   }
 
   function closeMenu() {
-    inject(function ($document) {
+    inject(function($document) {
       $document.find('md-backdrop').triggerHandler('click');
       waitForMenuClose();
     });
   }
 
   function waitForMenuOpen() {
-    inject(function ($rootScope, $animate, $$rAF) {
+    inject(function($rootScope, $animate, $$rAF) {
       $rootScope.$digest();
       $animate.triggerCallbacks();
       $$rAF.flush();
@@ -182,7 +181,7 @@ describe('md-menu directive', function () {
   }
 
   function waitForMenuClose() {
-    inject(function ($rootScope, $animate, $$rAF) {
+    inject(function($rootScope, $animate, $$rAF) {
       $rootScope.$digest();
       $animate.triggerCallbacks();
       $$rAF.flush();
