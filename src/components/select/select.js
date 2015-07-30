@@ -879,8 +879,9 @@ function SelectProvider($$interimElementProvider) {
       function showBackdrop(scope, element, options) {
 
         // If we are not within a dialog...
-        // !! DO this before creating the backdrop
         if (options.disableParentScroll && !$mdUtil.getClosest(options.target, 'MD-DIALOG')) {
+          // !! DO this before creating the backdrop; since disableScrollAround()
+          //    configures the scroll offset; which is used by mdBackDrop postLink()
           options.restoreScroll = $mdUtil.disableScrollAround(options.element, options.parent);
         } else {
           options.disableParentScroll = false;
