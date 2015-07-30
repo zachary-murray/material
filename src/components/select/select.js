@@ -1028,16 +1028,17 @@ function SelectProvider($$interimElementProvider) {
         }
 
         function onMenuKeyDown(ev) {
+          var keyCodes = $mdConstant.KEY_CODE;
 
           switch (ev.keyCode) {
-            case $mdConstant.KEY_CODE.UP_ARROW:
+            case keyCodes.UP_ARROW:
               return focusPrevOption();
               break;
-            case $mdConstant.KEY_CODE.DOWN_ARROW:
+            case keyCodes.DOWN_ARROW:
               return focusNextOption();
               break;
-            case $mdConstant.KEY_CODE.SPACE:
-            case $mdConstant.KEY_CODE.ENTER:
+            case keyCodes.SPACE:
+            case keyCodes.ENTER:
               var option = $mdUtil.getClosest(ev.target, 'md-option');
               if (option) {
                 dropDown.triggerHandler({
@@ -1048,8 +1049,8 @@ function SelectProvider($$interimElementProvider) {
               }
               checkCloseMenu();
               break;
-            case $mdConstant.KEY_CODE.TAB:
-            case $mdConstant.KEY_CODE.ESCAPE:
+            case keyCodes.TAB:
+            case keyCodes.ESCAPE:
               ev.preventDefault();
               opts.restoreFocus = true;
               $mdUtil.nextTick($mdSelect.hide, true);
