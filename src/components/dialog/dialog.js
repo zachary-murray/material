@@ -606,7 +606,8 @@ function MdDialogProvider($$interimElementProvider) {
     function showBackdrop(scope, element, options) {
 
       if (options.disableParentScroll) {
-        // !! DO this before creating the backdrop
+        // !! DO this before creating the backdrop; since disableScrollAround()
+        //    configures the scroll offset; which is used by mdBackDrop postLink()
         options.restoreScroll = $mdUtil.disableScrollAround(element, options.parent);
       }
 

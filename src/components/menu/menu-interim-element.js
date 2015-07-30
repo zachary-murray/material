@@ -1,5 +1,5 @@
 angular.module('material.components.menu')
-.provider('$mdMenu', MenuProvider);
+  .provider('$mdMenu', MenuProvider);
 
 /*
  * Interim element provider for the menu.
@@ -36,51 +36,50 @@ function MenuProvider($$interimElementProvider) {
     };
 
     /**
-      * Show modal backdrop element...
-      */
-     function showBackdrop(scope, element, options) {
+     * Show modal backdrop element...
+     * @returns {function(): void} A function that removes this backdrop
+     */
+    function showBackdrop(scope, element, options) {
 
-       // If we are not within a dialog...
-       if (options.disableParentScroll && !$mdUtil.getClosest(options.target, 'MD-DIALOG')) {
-          // !! DO this before creating the backdrop
-         options.restoreScroll = $mdUtil.disableScrollAround(options.element,options.parent);
-       } else {
-         options.disableParentScroll = false;
-       }
+      // If we are not within a dialog...
+      if (options.disableParentScroll && !$mdUtil.getClosest(options.target, 'MD-DIALOG')) {
+        // !! DO this before creating the backdrop; since disableScrollAround()
+        //    configures the scroll offset; which is used by mdBackDrop postLink()
+        options.restoreScroll = $mdUtil.disableScrollAround(options.element, options.parent);
+      } else {
+        options.disableParentScroll = false;
+      }
 
-       if (options.hasBackdrop) {
-         options.backdrop = $mdUtil.createBackdrop(scope, "md-menu-backdrop md-click-catcher");
+      if (options.hasBackdrop) {
+        options.backdrop = $mdUtil.createBackdrop(scope, "md-menu-backdrop md-click-catcher");
 
-         //options.parent.append(options.backdrop);
-         $animate.enter(options.backdrop, options.parent);
-       }
+        $animate.enter(options.backdrop, options.parent);
+      }
 
-       /**
-        * Hide modal backdrop element...
-        */
-       return function hideBackdrop() {
-         if (options.backdrop) {
-           //options.backdrop.remove();
-           $animate.leave(options.backdrop);
-         }
-         if (options.disableParentScroll) {
-           options.restoreScroll();
-         }
-       }
-     }
+      /**
+       * Hide and destroys the backdrop created by showBackdrop()
+       */
+      return function hideBackdrop() {
+        if (options.backdrop) {
+          $animate.leave(options.backdrop);
+        }
+        if (options.disableParentScroll) {
+          options.restoreScroll();
+        }
+      }
+    }
 
     /**
-     * Boilerplate interimElement onRemove function
-     * Handles removing the menu from the DOM, cleaning up the element
-     * and removing various listeners
+     * Removing the menu element from the DOM and remove all associated evetn listeners
+     * and backdrop
      */
     function onRemove(scope, element, opts) {
       opts.cleanupInteraction();
       opts.cleanupResizing();
 
-      return $animateCss(element, { addClass : 'md-leave' })
+      return $animateCss(element, {addClass: 'md-leave'})
         .start()
-        .then(function() {
+        .then(function () {
           element.removeClass('md-active');
           opts.hideBackdrop();
 
@@ -90,8 +89,8 @@ function MenuProvider($$interimElementProvider) {
     }
 
     /**
-     * Boilerplate interimElement onShow function
-     * Handles inserting the menu into the DOM, positioning it, and wiring up various interaction events
+     * Inserts and configures the staged Menu element into the DOM, positioning it,
+     * and wiring up various interaction events
      */
     function onShow(scope, element, opts) {
       sanitizeAndConfigure(opts);
@@ -100,12 +99,12 @@ function MenuProvider($$interimElementProvider) {
       $mdTheming.inherit(opts.menuContentEl, opts.target);
 
       // Register various listeners to move menu on resize/orientation change
-      opts.cleanupResizing = activateResizing();
-      opts.hideBackdrop = showBackdrop(scope,element,opts);
+      opts.cleanupResizing = startRepositioningOnResize();
+      opts.hideBackdrop = showBackdrop(scope, element, opts);
 
       // Return the promise for when our menu is done animating in
       return showMenu()
-        .then( function(response) {
+        .then(function (response) {
           opts.alreadyOpen = true;
           opts.cleanupInteraction = activateInteraction();
           return response;
@@ -117,22 +116,24 @@ function MenuProvider($$interimElementProvider) {
       function showMenu() {
         opts.parent.append(element);
 
-        return $q(function(resolve){
+        return $q(function (resolve) {
 
-          $animateCss(element, { removeClass: 'md-leave', duration:0 })
+          $animateCss(element, {removeClass: 'md-leave', duration: 0})
             .start()
-            .then(function(){
+            .then(function () {
               var position = calculateMenuPosition(element, opts);
 
+              // Animate the menu scaling, and opacity [from its position origin (default == top-left)]
+              // to normal scale.
               $animateCss(element, {
-                addClass : 'md-active',
-                from : animator.toCss( position ),
-                to : animator.toCss( { transform : 'scale(1.0,1.0)' })
+                addClass: 'md-active',
+                from: animator.toCss(position),
+                to: animator.toCss({transform: 'scale(1.0,1.0)'})
               })
-              .start()
-              .then( resolve );
+                .start()
+                .then(resolve);
 
-             });
+            });
         });
       }
 
@@ -141,7 +142,7 @@ function MenuProvider($$interimElementProvider) {
        */
       function sanitizeAndConfigure() {
         if (!opts.target) {
-          throw new Error(
+          throw Error(
             '$mdMenu.show() expected a target to animate from in options.target'
           );
         }
@@ -157,29 +158,27 @@ function MenuProvider($$interimElementProvider) {
       /**
        * Configure various resize listeners for screen changes
        */
-      function activateResizing() {
+      function startRepositioningOnResize() {
 
-        var debouncedOnResize = (function(target,options){
+        var repositionMenu = (function (target, options) {
           return $$rAF.throttle(function () {
             if (opts.isRemoved) return;
             var position = calculateMenuPosition(target, options);
 
-            target.css( animator.toCss(position) );
+            target.css(animator.toCss(position));
           });
-        })(element,opts);
+        })(element, opts);
 
-        var window = angular.element($window);
-        
-        window.on('resize', debouncedOnResize);
-        window.on('orientationchange', debouncedOnResize);
+        $window.on('resize', repositionMenu);
+        $window.on('orientationchange', repositionMenu);
 
-         return function deactivateResizing() {
+        return function stopRepositioningOnResize() {
 
-            // Disable resizing handlers
-            window.off('resize', debouncedOnResize);
-            window.off('orientationchange', debouncedOnResize);
-          }
+          // Disable resizing handlers
+          $window.off('resize', repositionMenu);
+          $window.off('orientationchange', repositionMenu);
         }
+      }
 
       /**
        * Activate interaction on the menu. Wire up keyboard listerns for
@@ -189,7 +188,7 @@ function MenuProvider($$interimElementProvider) {
         element.addClass('md-clickable');
 
         // close on backdrop click
-        opts.backdrop && opts.backdrop.on('click', onBackdropClick );
+        if (opts.backdrop) opts.backdrop.on('click', onBackdropClick);
 
         // Wire up keyboard listeners.
         // - Close on escape,
@@ -199,35 +198,42 @@ function MenuProvider($$interimElementProvider) {
         opts.menuContentEl[0].addEventListener('click', captureClickListener, true);
 
         // kick off initial focus in the menu on the first element
-        var focusTarget = opts.menuContentEl[0].querySelector('[md-menu-focus-target]');
-        if (!focusTarget) focusTarget = opts.menuContentEl[0].firstElementChild.firstElementChild;
+        var focusTarget = opts.menuContentEl[0].querySelector('[md-menu-focus-target]') ||
+          opts.menuContentEl[0].firstElementChild.firstElementChild;
         focusTarget.focus();
 
         return function cleanupInteraction() {
           element.removeClass('md-clickable');
-          opts.backdrop && opts.backdrop.off('click', onBackdropClick);
+          if (opts.backdrop) opts.backdrop.off('click', onBackdropClick);
           opts.menuContentEl.off('keydown', onMenuKeyDown);
           opts.menuContentEl[0].removeEventListener('click', captureClickListener, true);
         };
 
         // ************************************
-        // Closure Functions
+        // internal functions
         // ************************************
 
         function onMenuKeyDown(ev) {
-           scope.$apply(function() {
-             switch (ev.keyCode) {
-               case $mdConstant.KEY_CODE.ESCAPE: opts.mdMenuCtrl.close(); break;
-               case $mdConstant.KEY_CODE.UP_ARROW: focusMenuItem(ev, opts.menuContentEl, opts, -1); break;
-               case $mdConstant.KEY_CODE.DOWN_ARROW: focusMenuItem(ev, opts.menuContentEl, opts, 1); break;
-             }
-           });
+          scope.$apply(function () {
+            var keyCodes = $mdConstant.KEY_CODE;
+            switch (ev.keyCode) {
+              case keyCodes.ESCAPE:
+                opts.mdMenuCtrl.close();
+                break;
+              case keyCodes.UP_ARROW:
+                focusMenuItem(ev, opts.menuContentEl, opts, -1);
+                break;
+              case keyCodes.DOWN_ARROW:
+                focusMenuItem(ev, opts.menuContentEl, opts, 1);
+                break;
+            }
+          });
         }
 
         function onBackdropClick(e) {
           e.preventDefault();
           e.stopPropagation();
-          scope.$apply(function() {
+          scope.$apply(function () {
             opts.mdMenuCtrl.close(true);
           });
         }
@@ -248,7 +254,7 @@ function MenuProvider($$interimElementProvider) {
           } while (target = target.parentNode)
 
           function close() {
-            scope.$apply(function() {
+            scope.$apply(function () {
               opts.mdMenuCtrl.close();
             });
           }
@@ -271,13 +277,13 @@ function MenuProvider($$interimElementProvider) {
     }
 
     /**
-      * Takes a keypress event and focuses the next/previous menu
-      * item from the emitting element
-      * @param {event} e - The origin keypress event
-      * @param {angular.element} menuEl - The menu element
-      * @param {object} opts - The interim element options for the mdMenu
-      * @param {number} direction - The direction to move in (+1 = next, -1 = prev)
-      */
+     * Takes a keypress event and focuses the next/previous menu
+     * item from the emitting element
+     * @param {event} e - The origin keypress event
+     * @param {angular.element} menuEl - The menu element
+     * @param {object} opts - The interim element options for the mdMenu
+     * @param {number} direction - The direction to move in (+1 = next, -1 = prev)
+     */
     function focusMenuItem(e, menuEl, opts, direction) {
       var currentItem = $mdUtil.getClosest(e.target, 'MD-MENU-ITEM');
 
@@ -304,7 +310,7 @@ function MenuProvider($$interimElementProvider) {
     function attemptFocus(el) {
       if (el && el.getAttribute('tabindex') != -1) {
         el.focus();
-        return  ($document[0].activeElement == el) ? true : false;
+        return ($document[0].activeElement == el);
       }
     }
 
@@ -325,14 +331,13 @@ function MenuProvider($$interimElementProvider) {
     function calculateMenuPosition(el, opts) {
 
       var containerNode = el[0],
-          openMenuNode = el[0].firstElementChild,
-          openMenuNodeRect = openMenuNode.getBoundingClientRect(),
-          boundryNode = opts.parent[0],
-          boundryNodeRect = boundryNode.getBoundingClientRect();
+        openMenuNode = el[0].firstElementChild,
+        openMenuNodeRect = openMenuNode.getBoundingClientRect(),
+        boundryNode = opts.parent[0],
+        boundryNodeRect = boundryNode.getBoundingClientRect();
 
       var originNode = opts.target[0].querySelector('[md-menu-origin]') || opts.target[0],
-          originNodeRect = originNode.getBoundingClientRect();
-
+        originNodeRect = originNode.getBoundingClientRect();
 
       var bounds = {
         left: boundryNodeRect.left + MENU_EDGE_MARGIN,
@@ -340,7 +345,6 @@ function MenuProvider($$interimElementProvider) {
         bottom: Math.max(boundryNodeRect.bottom, Math.max(boundryNodeRect.top, 0) + boundryNodeRect.height) - MENU_EDGE_MARGIN,
         right: boundryNodeRect.right - MENU_EDGE_MARGIN
       };
-
 
       var alignTarget, alignTargetRect, existingOffsets;
       var positionMode = opts.mdMenuCtrl.positionMode();
@@ -362,7 +366,7 @@ function MenuProvider($$interimElementProvider) {
         };
       }
 
-      var position = { };
+      var position = {};
       var transformOrigin = 'top ';
 
       switch (positionMode.top) {
@@ -408,17 +412,17 @@ function MenuProvider($$interimElementProvider) {
 
       clamp(position);
 
-      var scaleX = Math.round(100 * Math.min(originNodeRect.width / containerNode.offsetWidth, 1.0))/100;
-      var scaleY = Math.round(100 * Math.min(originNodeRect.height / containerNode.offsetHeight, 1.0))/100;
+      var scaleX = Math.round(100 * Math.min(originNodeRect.width / containerNode.offsetWidth, 1.0)) / 100;
+      var scaleY = Math.round(100 * Math.min(originNodeRect.height / containerNode.offsetHeight, 1.0)) / 100;
 
       return {
         top: Math.round(position.top),
         left: Math.round(position.left),
 
         // Animate a scale out if we aren't just repositioning
-        transform : !opts.alreadyOpen ? $mdUtil.supplant('scale({0},{1})',[scaleX, scaleY]) : undefined,
+        transform: !opts.alreadyOpen ? $mdUtil.supplant('scale({0},{1})', [scaleX, scaleY]) : undefined,
 
-        transformOrigin : transformOrigin
+        transformOrigin: transformOrigin
       };
 
       /**
@@ -431,12 +435,12 @@ function MenuProvider($$interimElementProvider) {
       }
 
       /**
-        * Gets the first visible child in the openMenuNode
-        * Necessary incase menu nodes are being dynamically hidden
-        */
+       * Gets the first visible child in the openMenuNode
+       * Necessary incase menu nodes are being dynamically hidden
+       */
       function firstVisibleChild() {
         for (var i = 0; i < openMenuNode.children.length; ++i) {
-          if (window.getComputedStyle(openMenuNode.children[i]).display != 'none') {
+          if ($window[0].getComputedStyle(openMenuNode.children[i]).display != 'none') {
             return openMenuNode.children[i];
           }
         }

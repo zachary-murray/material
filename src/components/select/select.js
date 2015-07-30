@@ -99,8 +99,8 @@ function SelectDirective($mdSelect, $mdUtil, $mdTheming, $mdAria, $rootElement, 
       // Show progress indicator while loading async
       element
         .find('md-content')
-        .prepend( angular.element(
-          '<div>'+
+        .prepend(angular.element(
+          '<div>' +
           ' <md-progress-circular md-mode="indeterminate" ng-hide="$$loadingAsyncDone">' +
           ' </md-progress-circular>' +
           '</div>'
@@ -133,12 +133,12 @@ function SelectDirective($mdSelect, $mdUtil, $mdTheming, $mdAria, $rootElement, 
 
     // Use everything that's left inside element.contents() as the contents of the menu
     var multiple = angular.isDefined(attr.multiple) ? 'multiple' : '';
-    var selectTemplate = ''+
+    var selectTemplate = '' +
       '<div class="md-select-menu-container">' +
       '<md-select-menu {0}>{1}</md-select-menu>' +
       '</div>';
 
-    selectTemplate = $mdUtil.supplant(selectTemplate, [ multiple, element.html() ]);
+    selectTemplate = $mdUtil.supplant(selectTemplate, [multiple, element.html()]);
     element.empty().append(valueEl);
 
     attr.tabindex = attr.tabindex || '0';
@@ -157,8 +157,8 @@ function SelectDirective($mdSelect, $mdUtil, $mdTheming, $mdAria, $rootElement, 
 
       if (containerCtrl) {
         var isErrorGetter = containerCtrl.isErrorGetter || function () {
-              return ngModelCtrl.$invalid && ngModelCtrl.$touched;
-            };
+            return ngModelCtrl.$invalid && ngModelCtrl.$touched;
+          };
 
         if (containerCtrl.input) {
           throw new Error("<md-input-container> can only have *one* child <input>, <textarea> or <select> element!");
@@ -173,7 +173,6 @@ function SelectDirective($mdSelect, $mdUtil, $mdTheming, $mdAria, $rootElement, 
       }
 
       var selectContainer, selectScope, selectMenuCtrl;
-
 
       createSelect();
       $mdTheming(element);
@@ -764,7 +763,7 @@ function SelectProvider($$interimElementProvider) {
     });
 
   /* @ngInject */
-  function selectDefaultOptions($mdSelect, $mdConstant, $mdUtil, $window, $q, $$rAF, $animateCss, $animate ) {
+  function selectDefaultOptions($mdSelect, $mdConstant, $mdUtil, $window, $q, $$rAF, $animateCss, $animate) {
     var ERRROR_TARGET_EXPECTED = "$mdSelect.show() expected a target element in options.target but got '{0}'!";
     var animator = $mdUtil.dom.animator;
 
@@ -785,9 +784,9 @@ function SelectProvider($$interimElementProvider) {
       opts.cleanupResizing();
       opts.hideBackdrop();
 
-      return $animateCss(element, { addClass : 'md-leave' })
+      return $animateCss(element, {addClass: 'md-leave'})
         .start()
-        .then(function(response) {
+        .then(function (response) {
 
           configureAria(opts.target, false);
           element.removeClass('md-active');
@@ -797,7 +796,7 @@ function SelectProvider($$interimElementProvider) {
 
           return response;
         })
-        .finally(function() {
+        .finally(function () {
           opts.restoreFocus && opts.target.focus();
         });
 
@@ -814,15 +813,14 @@ function SelectProvider($$interimElementProvider) {
 
       opts.hideBackdrop = showBackdrop(scope, element, opts);
 
-      return showDropDown(scope, element,opts)
-        .then(function(response){
-          opts.alreadyOpen        = true;
+      return showDropDown(scope, element, opts)
+        .then(function (response) {
+          opts.alreadyOpen = true;
           opts.cleanupInteraction = activateInteraction();
-          opts.cleanupResizing    = activateResizing();
+          opts.cleanupResizing = activateResizing();
 
           return response;
-        }, opts.hideBackdrop );
-
+        }, opts.hideBackdrop);
 
       // ************************************
       // Closure Functions
@@ -835,16 +833,18 @@ function SelectProvider($$interimElementProvider) {
       function showDropDown(scope, element, opts) {
         opts.parent.append(element);
 
-        return $q(function(resolve, reject) {
+        return $q(function (resolve, reject) {
 
           try {
 
-            $animateCss(element, { removeClass: 'md-leave', duration:0 })
+            $animateCss(element, {removeClass: 'md-leave', duration: 0})
               .start()
-              .then( positionAndFocusMenu )
-              .then( resolve );
+              .then(positionAndFocusMenu)
+              .then(resolve);
 
-          } catch(e) { reject(e); }
+          } catch (e) {
+            reject(e);
+          }
 
         });
       }
@@ -854,17 +854,17 @@ function SelectProvider($$interimElementProvider) {
        * to show... and autoFocus.
        */
       function positionAndFocusMenu() {
-        return $q(function(resolve){
-          if ( opts.isRemoved ) return reject(false);
+        return $q(function (resolve) {
+          if (opts.isRemoved) return reject(false);
 
           var info = calculateMenuPositions(scope, element, opts);
 
-          info.container.element.css( animator.toCss(info.container.styles) );
-          info.dropDown.element.css( animator.toCss(info.dropDown.styles) );
+          info.container.element.css(animator.toCss(info.container.styles));
+          info.dropDown.element.css(animator.toCss(info.dropDown.styles));
 
-          $$rAF(function(){
+          $$rAF(function () {
             element.addClass('md-active');
-            info.dropDown.element.css( animator.toCss({transform:''}) );
+            info.dropDown.element.css(animator.toCss({transform: ''}));
 
             autoFocus(opts.focusedNode);
             resolve();
@@ -890,7 +890,7 @@ function SelectProvider($$interimElementProvider) {
           options.backdrop = $mdUtil.createBackdrop(scope, "md-select-backdrop md-click-catcher");
 
           // Override duration to immediately show invisible backdrop
-          $animate.enter(options.backdrop, options.parent, null, {duration:0});
+          $animate.enter(options.backdrop, options.parent, null, {duration: 0});
         }
 
         /**
@@ -899,7 +899,7 @@ function SelectProvider($$interimElementProvider) {
         return function hideBackdrop() {
           if (options.backdrop) {
             // Override duration to immediately remove invisible backdrop
-            $animate.leave(options.backdrop, {duration:0});
+            $animate.leave(options.backdrop, {duration: 0});
           }
           if (options.disableParentScroll) {
             options.restoreScroll();
@@ -941,7 +941,7 @@ function SelectProvider($$interimElementProvider) {
        * Configure various resize listeners for screen changes
        */
       function activateResizing() {
-        var debouncedOnResize = (function(scope, target,options){
+        var debouncedOnResize = (function (scope, target, options) {
 
           return function () {
             if (options.isRemoved) return;
@@ -950,11 +950,11 @@ function SelectProvider($$interimElementProvider) {
             var container = updates.container;
             var dropDown = updates.dropDown;
 
-            container.element.css( animator.toCss(container.styles) );
-            dropDown.element.css( animator.toCss(dropDown.styles) );
+            container.element.css(animator.toCss(container.styles));
+            dropDown.element.css(animator.toCss(dropDown.styles));
           };
 
-        })(scope, element,opts);
+        })(scope, element, opts);
 
         var window = angular.element($window);
         window.on('resize', debouncedOnResize);
@@ -974,15 +974,15 @@ function SelectProvider($$interimElementProvider) {
        *  '$$loadingAsyncDone' flag
        */
       function watchAsyncLoad() {
-        if( opts.loadingAsync && !opts.isRemoved ) {
+        if (opts.loadingAsync && !opts.isRemoved) {
           scope.$$loadingAsyncDone = false;
 
           $q.when(opts.loadingAsync)
             .then(function () {
-                scope.$$loadingAsyncDone = true;
-                delete opts.loadingAsync;
-            }).then(function(){
-              $$rAF( positionAndFocusMenu );
+              scope.$$loadingAsyncDone = true;
+              delete opts.loadingAsync;
+            }).then(function () {
+              $$rAF(positionAndFocusMenu);
             })
         }
       }
@@ -1026,8 +1026,7 @@ function SelectProvider($$interimElementProvider) {
           $mdUtil.nextTick($mdSelect.hide, true);
         }
 
-
-        function onMenuKeyDown (ev) {
+        function onMenuKeyDown(ev) {
 
           switch (ev.keyCode) {
             case $mdConstant.KEY_CODE.UP_ARROW:
@@ -1111,9 +1110,9 @@ function SelectProvider($$interimElementProvider) {
     /**
      *
      */
-    function configureAria(element,isExpanded) {
+    function configureAria(element, isExpanded) {
       isExpanded = angular.isUndefined(isExpanded) ? 'true' : 'false';
-      element && element.attr('aria-expanded', isExpanded );
+      element && element.attr('aria-expanded', isExpanded);
     }
 
     /**
@@ -1124,7 +1123,7 @@ function SelectProvider($$interimElementProvider) {
       var mdSelect = opts.selectEl.controller('mdSelect');
       if (mdSelect) {
         var menuController = opts.selectEl.controller('mdSelectMenu');
-        mdSelect.setLabelText( menuController.selectedLabels() );
+        mdSelect.setLabelText(menuController.selectedLabels());
         mdSelect.triggerClose();
       }
     }
@@ -1171,7 +1170,7 @@ function SelectProvider($$interimElementProvider) {
 
       var loading = isPromiseLike(opts.loadingAsync);
       var centeredNode;
-      if ( !loading ) {
+      if (!loading) {
         // If a selected node, center around that
         if (selectedNode) {
           centeredNode = selectedNode;
@@ -1179,7 +1178,7 @@ function SelectProvider($$interimElementProvider) {
         } else if (optgroupNodes.length) {
           centeredNode = optgroupNodes[0];
           // Otherwise - if we are not loading async - center around the first optionNode
-        } else if (optionNodes.length ) {
+        } else if (optionNodes.length) {
           centeredNode = optionNodes[0];
           // In case there are no options, center on whatever's in there... (eg progress indicator)
         } else {
@@ -1259,28 +1258,26 @@ function SelectProvider($$interimElementProvider) {
 
       // Keep left and top within the window
       var containerRect = containerNode.getBoundingClientRect();
-      var scaleX = Math.round(100 * Math.min(targetRect.width / selectMenuRect.width, 1.0))/100;
-      var scaleY = Math.round(100 * Math.min(targetRect.height / selectMenuRect.height, 1.0))/100;
+      var scaleX = Math.round(100 * Math.min(targetRect.width / selectMenuRect.width, 1.0)) / 100;
+      var scaleY = Math.round(100 * Math.min(targetRect.height / selectMenuRect.height, 1.0)) / 100;
 
       return {
-        container : {
-          element : angular.element(containerNode),
-          styles : {
-            left : Math.floor( clamp(bounds.left, left, bounds.right - containerRect.width) ),
-            top : Math.floor( clamp(bounds.top, top, bounds.bottom - containerRect.height) ),
-            'min-width' : minWidth
+        container: {
+          element: angular.element(containerNode),
+          styles: {
+            left: Math.floor(clamp(bounds.left, left, bounds.right - containerRect.width)),
+            top: Math.floor(clamp(bounds.top, top, bounds.bottom - containerRect.height)),
+            'min-width': minWidth
           }
         },
-        dropDown : {
-          element : angular.element(selectNode),
-          styles : {
-            transformOrigin : transformOrigin,
-            transform : !opts.alreadyOpen ? $mdUtil.supplant('scale({0},{1})',[scaleX, scaleY]) : ""
+        dropDown: {
+          element: angular.element(selectNode),
+          styles: {
+            transformOrigin: transformOrigin,
+            transform: !opts.alreadyOpen ? $mdUtil.supplant('scale({0},{1})', [scaleX, scaleY]) : ""
           }
         }
       };
-
-
 
     }
 
