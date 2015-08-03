@@ -1,6 +1,6 @@
 describe('$$interimElement service', function() {
 
-  beforeEach(module('material.core'));
+  beforeEach(module('material.core', 'ngAnimateMock'));
 
   var $rootScope, $animate, $q, $timeout;
   var $compilerSpy, $themingSpy;

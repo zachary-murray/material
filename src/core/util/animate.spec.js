@@ -1,5 +1,5 @@
 describe('animate', function() {
-  beforeEach(module('material.core'));
+  beforeEach(module('material.core', 'ngAnimateMock'));
 
   var $animate, $rootScope, $timeout, $$mdAnimate;
   beforeEach( inject(function(_$animate_,_$rootScope_,_$timeout_, _$$mdAnimate_, $mdUtil) {

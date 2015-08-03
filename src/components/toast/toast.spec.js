@@ -1,6 +1,6 @@
 describe('$mdToast service', function() {
-  beforeEach(module('material.components.toast', function($provide) {
-  }));
+  beforeEach(module('material.components.toast', 'ngAnimateMock'));
+
   afterEach(inject(function($timeout, $animate) {
     $animate.triggerCallbacks();
     $timeout.flush();
