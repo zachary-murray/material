@@ -1,4 +1,4 @@
-describe('md-menu directive', function() {
+ddescribe('md-menu directive', function() {
   var $mdMenu, $timeout, something;
 
   beforeEach(module('material.components.menu'));
@@ -46,7 +46,7 @@ describe('md-menu directive', function() {
     expect(clickDetected).toBe(false);
   });
 
-  it('closes on backdrop click', inject(function($document) {
+  iit('closes on backdrop click', inject(function($document) {
     openMenu(setup());
 
     expect(getOpenMenuContainer().length).toBe(1);
@@ -162,7 +162,6 @@ describe('md-menu directive', function() {
   function openMenu(el) {
     el.children().eq(0).triggerHandler('click');
     waitForMenuOpen();
-    $timeout.flush();
   }
 
   function closeMenu() {
@@ -173,15 +172,17 @@ describe('md-menu directive', function() {
   }
 
   function waitForMenuOpen() {
-    inject(function($rootScope, $animate, $$rAF) {
+    inject(function($rootScope, $animate, $$rAF, $timeout) {
       $rootScope.$digest();
-      $animate.triggerCallbacks();
+      $timeout.flush();
       $$rAF.flush();
+      $animate.triggerCallbacks();
+      $timeout.flush();
     });
   }
 
   function waitForMenuClose() {
-    inject(function($rootScope, $animate, $$rAF) {
+    inject(function($rootScope, $animate, $$rAF, $timeout) {
       $rootScope.$digest();
       $animate.triggerCallbacks();
       $$rAF.flush();
