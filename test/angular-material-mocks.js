@@ -26,8 +26,12 @@
  * The `ngMaterial-mock` module provides support
  *
  */
-angular.module('ngMaterial-mock', ['ngMock', 'material.core'])
-       .config(['$provide', function($provide) {
+angular.module('ngMaterial-mock', [
+  'ngMock',
+  'ngAnimateMock',
+  'material.core'
+  ])
+  .config(['$provide', function($provide) {
 
     /**
       * Angular Material dynamically generates Style tags
