@@ -1,7 +1,28 @@
 describe('<md-select>', function() {
+  var disableAnimations;
 
   beforeEach(module('material.components.input'));
   beforeEach(module('material.components.select'));
+  beforeEach(module(function(){
+      return function($rootElement, $document, $animate) {
+
+        // Create special animation disabler function useful
+        // for stop animations in `$animateCss(element, {addClass: 'md-leave'})`
+
+        disableAnimations = function() {
+          var head = angular.element($document[0].querySelector('head'));
+          var body = angular.element($document[0].body);
+          var stopAnimations = "transition: 0s none !important; animation: 0s none !important;";
+          var webKitStop = "-webkit-transition: 0s none !important; -webkit-animation: 0s none !important;";
+          var style = "<style>.disable_animations * {" + stopAnimations + webKitStop + "}</style>";
+
+          $animate.enabled(false);
+
+          head.prepend(angular.element(style));
+          body.addClass('disable_animations');
+        }
+      };
+  }));
 
   function setupSelect(attrs, options, bNoLabel) {
     var el;
@@ -76,6 +97,8 @@ describe('<md-select>', function() {
           $timeout.flush(); // flush response
             $$rAF.flush();  // flush $animateCss
           $timeout.flush(); // flush response
+
+          $rootScope.$digest();
       });
     } catch(e) { }
   }
@@ -87,6 +110,11 @@ describe('<md-select>', function() {
 
           $$rAF.flush();    // flush $animate.leave(backdrop)
           $timeout.flush(); // flush response
+
+          $rootScope.$digest();
+
+          $$rAF.flush();
+          $rootScope.$digest();
       });
     } catch(e) { }
   }
@@ -699,7 +727,9 @@ describe('<md-select>', function() {
       expect($log.warn).not.toHaveBeenCalled();
     }));
 
-    it('sets up the aria-expanded attribute', inject(function($document) {
+    it('sets up the aria-expanded attribute', inject(function($document,$$rAF,$rootScope) {
+      disableAnimations();
+
       expect(el.attr('aria-expanded')).toBe('false');
       openSelect(el);
       expect(el.attr('aria-expanded')).toBe('true');
@@ -707,6 +737,7 @@ describe('<md-select>', function() {
       var selectMenu = $document.find('md-select-menu');
       pressKey(selectMenu, 27);
       waitForSelectClose();
+
       expect(el.attr('aria-expanded')).toBe('false');
     }));
     it('sets up the aria-multiselectable attribute', inject(function($document, $rootScope) {

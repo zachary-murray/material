@@ -1,6 +1,12 @@
 describe('$mdToast service', function() {
-  beforeEach(module('material.components.toast', function($provide) {
+  beforeEach(module('material.components.toast'));
+
+  beforeEach(module(function(){
+    return function($animate) {
+      $animate.enabled(false);
+    };
   }));
+
   afterEach(inject(function($timeout, $animate) {
     $animate.triggerCallbacks();
     $timeout.flush();
@@ -8,14 +14,16 @@ describe('$mdToast service', function() {
 
   function setup(options) {
     var promise;
-    inject(function($mdToast, $rootScope, $animate, $$rAF, $timeout) {
+    inject(function($mdToast, $rootScope, $$rAF, $timeout) {
       options = options || {};
 
-      $animate.triggerCallbacks();
+      $$rAF.flush();
 
       promise = $mdToast.show(options);
 
-      $animate.triggerCallbacks();
+      $rootScope.$digest();
+      $$rAF.flush();
+      $timeout.flush();
 
     });
     return promise;
@@ -180,6 +188,7 @@ describe('$mdToast service', function() {
         setup({
           template: '<md-toast class="two">'
         });
+
         expect($rootElement[0].querySelector('md-toast.one')).toBeFalsy();
         expect($rootElement[0].querySelector('md-toast.two')).toBeTruthy();
         expect($rootElement[0].querySelector('md-toast.three')).toBeFalsy();
