@@ -784,16 +784,34 @@ function SelectProvider($$interimElementProvider) {
       opts.cleanupResizing();
       opts.hideBackdrop();
 
-      configureAria(opts.target, false);
+      return $animateCss(element, {addClass: 'md-leave'})
+         .start()
+         .then(function(response) {
 
-      element.addClass('md-leave');
-      element.removeClass('md-active');
+           configureAria(opts.target, false);
+           element.removeClass('md-active');
 
-      announceClosed(opts);
-      detachElement(element, opts);
-      opts.restoreFocus && opts.target.focus();
+           announceClosed(opts);
+           detachElement(element, opts);
 
-      return $q.when(true);
+           return response;
+         })
+         .finally(function() {
+           opts.restoreFocus && opts.target.focus();
+         });
+
+      // If we want to ignore leave animations (and remove immediately):
+      //
+      //     configureAria(opts.target, false);
+      //
+      //     element.addClass('md-leave');
+      //     element.removeClass('md-active');
+      //
+      //     announceClosed(opts);
+      //     detachElement(element, opts);
+      //     opts.restoreFocus && opts.target.focus();
+      //
+      //     return $q.when(true);
     }
 
     /**
