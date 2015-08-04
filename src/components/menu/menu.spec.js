@@ -1,4 +1,4 @@
-ddescribe('md-menu directive', function() {
+describe('md-menu directive', function() {
   var $mdMenu, $timeout, something;
 
   beforeEach(module('material.components.menu'));
@@ -46,7 +46,7 @@ ddescribe('md-menu directive', function() {
     expect(clickDetected).toBe(false);
   });
 
-  iit('closes on backdrop click', inject(function($document) {
+  it('closes on backdrop click', inject(function($document) {
     openMenu(setup());
 
     expect(getOpenMenuContainer().length).toBe(1);
@@ -172,21 +172,23 @@ ddescribe('md-menu directive', function() {
   }
 
   function waitForMenuOpen() {
-    inject(function($rootScope, $animate, $$rAF, $timeout) {
+    inject(function($rootScope, $$rAF, $timeout) {
       $rootScope.$digest();
-      $timeout.flush();
-      $$rAF.flush();
-      $animate.triggerCallbacks();
-      $timeout.flush();
+
+        $$rAF.flush();      // flush $animate.enter(backdrop)
+        $$rAF.flush();      // flush $animateCss
+        $timeout.flush();   // flush response
+
     });
   }
 
   function waitForMenuClose() {
-    inject(function($rootScope, $animate, $$rAF, $timeout) {
+    inject(function($rootScope, $$rAF, $timeout) {
       $rootScope.$digest();
-      $animate.triggerCallbacks();
-      $$rAF.flush();
-      $timeout.flush();
+
+        $$rAF.flush();      // flush $animate.leave(backdrop)
+        $$rAF.flush();      // flush $animateCss
+        $timeout.flush();   // flush response
     });
   }
 

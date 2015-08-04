@@ -784,22 +784,16 @@ function SelectProvider($$interimElementProvider) {
       opts.cleanupResizing();
       opts.hideBackdrop();
 
-      return $animateCss(element, {addClass: 'md-leave'})
-        .start()
-        .then(function(response) {
+      configureAria(opts.target, false);
 
-          configureAria(opts.target, false);
-          element.removeClass('md-active');
+      element.addClass('md-leave');
+      element.removeClass('md-active');
 
-          announceClosed(opts);
-          detachElement(element, opts);
+      announceClosed(opts);
+      detachElement(element, opts);
+      opts.restoreFocus && opts.target.focus();
 
-          return response;
-        })
-        .finally(function() {
-          opts.restoreFocus && opts.target.focus();
-        });
-
+      return $q.when(true);
     }
 
     /**
@@ -888,9 +882,8 @@ function SelectProvider($$interimElementProvider) {
         }
 
         if (options.hasBackdrop) {
-          options.backdrop = $mdUtil.createBackdrop(scope, "md-select-backdrop md-click-catcher");
-
           // Override duration to immediately show invisible backdrop
+          options.backdrop = $mdUtil.createBackdrop(scope, "md-select-backdrop md-click-catcher");
           $animate.enter(options.backdrop, options.parent, null, {duration: 0});
         }
 

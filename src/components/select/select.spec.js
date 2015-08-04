@@ -14,7 +14,6 @@ describe('<md-select>', function() {
       var template = angular.element(src);
       el = $compile(template)($rootScope);
       $rootScope.$digest();
-      $rootScope.$digest();
     });
     return el;
   }
@@ -57,9 +56,6 @@ describe('<md-select>', function() {
     try {
       el.triggerHandler('click');
       waitForSelectOpen();
-      inject(function($timeout) {
-        $timeout.flush();
-      });
     } catch(e) { }
   }
 
@@ -73,23 +69,26 @@ describe('<md-select>', function() {
 
   function waitForSelectOpen() {
     try {
-      inject(function($rootScope, $animate, $$rAF) {
+      inject(function($rootScope, $timeout, $$rAF) {
           $rootScope.$digest();
-          $animate.triggerCallbacks();
-          $$rAF.flush();
+
+            $$rAF.flush();  // flush $animate.enter(backdrop)
+          $timeout.flush(); // flush response
+            $$rAF.flush();  // flush $animateCss
+          $timeout.flush(); // flush response
       });
     } catch(e) { }
   }
 
   function waitForSelectClose() {
     try {
-      inject(function($timeout, $animate, $$rAF) {
-        $timeout.flush();
-        $animate.triggerCallbacks();
-        $$rAF.flush();
-        $timeout.flush();
+      inject(function($rootScope, $timeout, $$rAF) {
+          $rootScope.$digest();
+
+          $$rAF.flush();    // flush $animate.leave(backdrop)
+          $timeout.flush(); // flush response
       });
-    } catch(e) { ; }
+    } catch(e) { }
   }
 
   it('should preserve tabindex', inject(function($document) {
@@ -131,7 +130,6 @@ describe('<md-select>', function() {
       type: 'click',
       target: angular.element($document.find('md-option')[0])
     });
-
     waitForSelectClose();
 
     expect(called).toBe(true);

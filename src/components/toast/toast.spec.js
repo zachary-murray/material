@@ -8,14 +8,15 @@ describe('$mdToast service', function() {
 
   function setup(options) {
     var promise;
-    inject(function($mdToast, $rootScope, $animate) {
+    inject(function($mdToast, $rootScope, $animate, $$rAF, $timeout) {
       options = options || {};
+
       $animate.triggerCallbacks();
 
       promise = $mdToast.show(options);
 
-      $rootScope.$apply();
       $animate.triggerCallbacks();
+
     });
     return promise;
   }

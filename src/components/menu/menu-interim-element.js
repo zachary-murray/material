@@ -117,23 +117,20 @@ function MenuProvider($$interimElementProvider) {
         opts.parent.append(element);
 
         return $q(function(resolve) {
+          var position = calculateMenuPosition(element, opts);
 
-          $animateCss(element, {removeClass: 'md-leave', duration: 0})
-            .start()
-            .then(function() {
-              var position = calculateMenuPosition(element, opts);
+          element.removeClass('md-leave');
 
-              // Animate the menu scaling, and opacity [from its position origin (default == top-left)]
-              // to normal scale.
-              $animateCss(element, {
-                addClass: 'md-active',
-                from: animator.toCss(position),
-                to: animator.toCss({transform: 'scale(1.0,1.0)'})
-              })
-                .start()
-                .then(resolve);
+          // Animate the menu scaling, and opacity [from its position origin (default == top-left)]
+          // to normal scale.
+          $animateCss(element, {
+            addClass: 'md-active',
+            from: animator.toCss(position),
+            to: animator.toCss({transform: 'scale(1.0,1.0)'})
+          })
+          .start()
+          .then(resolve);
 
-            });
         });
       }
 
