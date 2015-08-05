@@ -47,6 +47,7 @@
 
     module(function() {
       return function($mdUtil, $rootElement, $document, $animate) {
+        var DISABLE_ANIMATIONS = 'disable_animations';
 
         // Create special animation 'stop' function used
         // to set 0ms durations for all animations and transitions
@@ -56,18 +57,16 @@
           var head = angular.element($document[0].getElementsByTagName('head')[0]);
           var styleSheet = angular.element( buildStopTransitions() );
 
-          head.prepend(styleSheet);
-          body.addClass('disable_animations');
-
           $animate.enabled(false);
 
-          // prepare auto-restore
+          head.prepend(styleSheet);
+          body.addClass(DISABLE_ANIMATIONS);
+
+          // Prepare auto-restore
           enableAnimations = function() {
             styleSheet.remove();
+            body.removeClass(DISABLE_ANIMATIONS);
           };
-
-          // Publish the injected stylesheet element
-          return styleSheet;
         };
 
         /**
@@ -75,17 +74,15 @@
          * durations' to zero.
          */
         function buildStopTransitions() {
-          var style = "<style> .disable_animations * { {0} }</style>";
+          var style = "<style> .{0} * { {1} }</style>";
 
-          return $mdUtil.supplant(style,[
+          return $mdUtil.supplant(style,[ DISABLE_ANIMATIONS,
             "transition -webkit-transition animation -webkit-animation"
                 .split(" ")
                 .map(function(key){
-                  return $mdUtil.supplant("{0}: 0s none !important;",[key]);
+                  return $mdUtil.supplant("{0}: 0s none !important",[key]);
                 })
-                .reduce(function(previous,current){
-                   return previous + current;
-                },"")
+                .join("; ")
           ]);
 
         }
