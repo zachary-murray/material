@@ -54,8 +54,8 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // enable / disable watching file and executing tests whenever any file changes
-    autoWatch: false,
     singleRun: true,
+    autoWatch: false,
 
     // Start these browsers, currently available:
     // - Chrome

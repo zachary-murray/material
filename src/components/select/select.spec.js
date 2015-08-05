@@ -788,6 +788,8 @@ describe('<md-select>', function() {
 
     describe('md-select-menu', function() {
       it('can be closed with escape', inject(function($document, $rootScope, $animate) {
+        disableAnimations();
+
         var el = setupSelect('ng-model="someVal"', [1, 2, 3]).find('md-select');
         openSelect(el);
         var selectMenu = angular.element($document.find('md-select-menu'));

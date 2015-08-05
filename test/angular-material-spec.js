@@ -28,6 +28,13 @@
     };
   }
 
+  var enableAnimations;
+
+  afterEach(function() {
+    enableAnimations && enableAnimations();
+    enableAnimations = null;
+  });
+
   beforeEach(function() {
 
     /**
@@ -53,6 +60,11 @@
           body.addClass('disable_animations');
 
           $animate.enabled(false);
+
+          // prepare auto-restore
+          enableAnimations = function() {
+            styleSheet.remove();
+          };
 
           // Publish the injected stylesheet element
           return styleSheet;
