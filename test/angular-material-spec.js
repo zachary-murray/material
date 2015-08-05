@@ -17,18 +17,16 @@
     HTMLElement.prototype.click = function() {
       var ev = document.createEvent('MouseEvent');
       ev.initMouseEvent(
-          'click',
-          /*bubble*/true, /*cancelable*/true,
-          window, null,
-          0, 0, 0, 0, /*coordinates*/
-          false, false, false, false, /*modifier keys*/
-          0/*button=left*/, null
+        'click',
+        /*bubble*/true, /*cancelable*/true,
+        window, null,
+        0, 0, 0, 0, /*coordinates*/
+        false, false, false, false, /*modifier keys*/
+        0/*button=left*/, null
       );
       this.dispatchEvent(ev);
     };
   }
-
-
 
   beforeEach(function() {
 
@@ -39,6 +37,49 @@
 
     module('ngAnimate');
     module('ngMaterial-mock');
+
+    module(function() {
+      return function($mdUtil, $rootElement, $document, $animate) {
+
+        // Create special animation 'stop' function used
+        // to set 0ms durations for all animations and transitions
+
+        window.disableAnimations = function disableAnimations() {
+          var body = angular.element($document[0].body);
+          var head = angular.element($document[0].getElementsByTagName('head')[0]);
+          var styleSheet = angular.element( buildStopTransitions() );
+
+          head.prepend(styleSheet);
+          body.addClass('disable_animations');
+
+          $animate.enabled(false);
+
+          // Publish the injected stylesheet element
+          return styleSheet;
+        };
+
+        /**
+         * Build stylesheet to set all transition and animation
+         * durations' to zero.
+         */
+        function buildStopTransitions() {
+          var style = "<style> .disable_animations * { {0} }</style>";
+
+          return $mdUtil.supplant(style,[
+            "transition -webkit-transition animation -webkit-animation"
+                .split(" ")
+                .map(function(key){
+                  return $mdUtil.supplant("{0}: 0s none !important;",[key]);
+                })
+                .reduce(function(previous,current){
+                   return previous + current;
+                },"")
+          ]);
+
+        }
+
+      };
+    });
 
     /**
      * Mocks angular.element#focus ONLY for the duration of a particular test.
@@ -77,10 +118,10 @@
       toHaveClass: function() {
         return {
           compare: function(actual, expected) {
-            var results = { pass : true };
+            var results = {pass: true};
             var classes = expected.trim().split(/\s+/);
 
-            for (var i=0; i<classes.length; ++i) {
+            for (var i = 0; i < classes.length; ++i) {
               if (!angular.element(actual).hasClass(classes[i])) {
                 results.pass = false;
               }
@@ -106,8 +147,8 @@
         return {
           compare: function(actual, expected) {
             var results = {
-                pass : typeof actual == expected
-             };
+              pass: typeof actual == expected
+            };
 
             var negation = !results.pass ? "" : " not ";
 
@@ -125,7 +166,7 @@
       toHaveFields: function() {
         return {
           compare: function(actual, expected) {
-            var results = { pass : true  };
+            var results = {pass: true};
 
             for (var key in expected) {
               if (!(actual || {}).hasOwnProperty(key) || !angular.equals(actual[key], expected[key])) {
