@@ -10,7 +10,7 @@ if (angular.version.minor >= 4) {
   var WEBKIT = window.ontransitionend === undefined && window.onwebkittransitionend !== undefined;
   var TRANSITION_PROP = WEBKIT ? 'WebkitTransition' : 'transition';
   var ANIMATION_PROP = WEBKIT ? 'WebkitAnimation' : 'animation';
-  var PREFIX = WEBKIT ? '-webkit' : '';
+  var PREFIX = WEBKIT ? '-webkit-' : '';
 
   var TRANSITION_EVENTS = (WEBKIT ? 'webkitTransitionEnd ' : '') + 'transitionend';
   var ANIMATION_EVENTS = (WEBKIT ? 'webkitAnimationEnd ' : '') + 'animationend';
@@ -309,7 +309,7 @@ if (angular.version.minor >= 4) {
         };
 
         function prop(key) {
-          return WEBKIT ? 'Webkit' + key.charAt(1).toUpperCase() + key.substr(1)
+          return WEBKIT ? 'Webkit' + key.charAt(0).toUpperCase() + key.substr(1)
                         : key;
         }
       }
