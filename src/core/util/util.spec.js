@@ -292,5 +292,4 @@ describe('util', function() {
       }));
     });
   });
-
 });
