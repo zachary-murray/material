@@ -561,7 +561,6 @@ function InterimElementProvider() {
               // Start transitionIn
               $q.when(options.onShow(options.scope, element, options, controller))
                 .then(function () {
-
                   notifyComplete(options.scope, element, options);
                   startAutoHide();
 

@@ -19,7 +19,7 @@ describe('$mdToast service', function() {
   describe('simple()', function() {
     hasConfigMethods(['content', 'action', 'capsule', 'highlightAction', 'theme']);
 
-    it('supports a basic toast', inject(function($mdToast, $rootScope, $timeout, $animate) {
+    iit('supports a basic toast', inject(function($mdToast, $rootScope, $timeout, $animate, $browser) {
       var openAndclosed = false;
       var parent = angular.element('<div>');
       $mdToast.show(
@@ -30,6 +30,7 @@ describe('$mdToast service', function() {
           capsule: true
         })
       ).then(function() {
+        dump('show');
         openAndclosed = true;
       });
 
@@ -40,6 +41,8 @@ describe('$mdToast service', function() {
       expect(parent.find('md-toast').attr('md-theme')).toBe('some-theme');
 
       $animate.flush();
+      dump($browser.deferredFns[0]);
+      $rootScope.$digest();
 
       expect(openAndclosed).toBe(true);
     }));
@@ -267,7 +270,7 @@ describe('$mdToast service', function() {
 
       }));
 
-      it('and resolve `ok` with click on OK button', inject(function($mdToast, $rootScope, $timeout, $animate) {
+      it('and resolve `ok` with click on OK button', inject(function($mdToast, $rootScope, $timeout, $animate, $browser) {
         var result, fault;
         var parent = angular.element('<div>');
         var toast = $mdToast.simple({
@@ -290,7 +293,6 @@ describe('$mdToast service', function() {
 
         expect(result).toBe('ok');
         expect(angular.isUndefined(fault)).toBe(true);
-
       }));
     });
 

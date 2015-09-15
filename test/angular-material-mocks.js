@@ -54,6 +54,7 @@ angular.module('ngMaterial-mock', [
         asyncRun();
         try { flushFn(); } catch(e) {}
         $rootScope.$digest();
+        $timeout.flush(0);
       }
       return $delegate;
     }])

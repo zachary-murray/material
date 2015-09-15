@@ -22,8 +22,8 @@ describe('$animateCss', function() {
       ss.addRule('.to-remove', 'transition:0.5s linear all; border:10px solid black;');
 
       var asyncRun = angular.noop;
-      var asyncFlush = $injector.get('$$animateAsyncRun');
-      if (asyncFlush) {
+      if ($injector.has('$$animateAsyncRun')) {
+        var asyncFlush = $injector.get('$$animateAsyncRun');
         asyncRun = function() {
           asyncFlush.flush();
         };
