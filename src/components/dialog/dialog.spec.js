@@ -15,10 +15,7 @@ describe('$mdDialog', function() {
   }));
   beforeEach(inject(function($rootScope, $timeout, $$rAF, $animate) {
     runAnimation = function() {
-      $timeout.flush(); // flush to start animations
-      $$rAF.flush();    // flush animations
-      $animate.triggerCallbacks();
-      $timeout.flush(); // flush responses after animation completions
+      $animate.flush(); // flush to start animations
     };
   }));
 

@@ -36,18 +36,23 @@ angular.module('ngMaterial-mock', [
                             function($delegate,   $timeout,   $rootScope,   $injector,   $$rAF) {
 
       var asyncRun = angular.noop;
-      var asyncFlush = $injector.get('$$animateAsyncRun');
-      if (asyncFlush) {
+      if ($injector.has('$$animateAsyncRun')) {
+        var asyncFlush = $injector.get('$$animateAsyncRun');
         asyncRun = function() {
           asyncFlush.flush();
         };
       }
+
+      $delegate.triggerCallbacks = function() {
+        $timeout.flush(0);
+      };
       
+      var flushFn = $delegate.flush;
       $delegate.flush = function() {
         $rootScope.$digest();
         $$rAF.flush();
-        $timeout.flush();
         asyncRun();
+        try { flushFn(); } catch(e) {}
         $rootScope.$digest();
       }
       return $delegate;

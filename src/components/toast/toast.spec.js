@@ -10,11 +10,7 @@ describe('$mdToast service', function() {
     var promise;
     inject(function($mdToast, $rootScope, $$rAF, $timeout, $animate) {
       options = options || {};
-
-      $$rAF.flush();
-
       promise = $mdToast.show(options);
-
       $animate.flush();
     });
     return promise;
@@ -190,7 +186,7 @@ describe('$mdToast service', function() {
         setup({
           template: '<md-toast class="three">'
         });
-        $animate.flush();
+
         expect($rootElement[0].querySelector('md-toast.one')).toBeFalsy();
         expect($rootElement[0].querySelector('md-toast.two')).toBeFalsy();
         expect($rootElement[0].querySelector('md-toast.three')).toBeTruthy();
