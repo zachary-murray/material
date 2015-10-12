@@ -16,12 +16,20 @@ angular
 function MdBottomSheetDirective($mdBottomSheet) {
   return {
     restrict: 'E',
-    link : function postLink(scope, element, attr) {
+    require: '?mdIsLockedOpen',
+    link : function postLink(scope, element, attr, ctrl) {
       // When navigation force destroys an interimElement, then
       // listen and $destroy() that interim instance...
       scope.$on('$destroy', function() {
         $mdBottomSheet.destroy();
       });
+      if (ctrl) {
+       ctrl.onChange = function (parse) {
+          scope.isLocked = parse(scope.$parent);
+
+          ctrl.updateIsLocked(scope.backdrop);
+       }
+      }
     }
   };
 }
@@ -154,7 +162,7 @@ function MdBottomSheetProvider($$interimElementProvider) {
       element = $mdUtil.extractElementByName(element, 'md-bottom-sheet');
 
       // Add a backdrop that will close on click
-      backdrop = $mdUtil.createBackdrop(scope, "md-bottom-sheet-backdrop md-opaque");
+      backdrop = scope.backdrop = $mdUtil.createBackdrop(scope, "md-bottom-sheet-backdrop md-opaque");
 
       if (options.clickOutsideToClose) {
         backdrop.on('click', function() {
@@ -197,18 +205,19 @@ function MdBottomSheetProvider($$interimElementProvider) {
     }
 
     function onRemove(scope, element, options) {
+      if (!scope.isLocked) {
+        var bottomSheet = options.bottomSheet;
 
-      var bottomSheet = options.bottomSheet;
+        $animate.leave(backdrop);
+        return $animate.leave(bottomSheet.element).then(function() {
+          if (options.disableParentScroll) {
+            options.restoreScroll();
+            delete options.restoreScroll;
+          }
 
-      $animate.leave(backdrop);
-      return $animate.leave(bottomSheet.element).then(function() {
-        if (options.disableParentScroll) {
-          options.restoreScroll();
-          delete options.restoreScroll;
-        }
-
-        bottomSheet.cleanup();
-      });
+          bottomSheet.cleanup();
+        });
+      }
     }
 
     /**
@@ -216,9 +225,13 @@ function MdBottomSheetProvider($$interimElementProvider) {
      */
     function BottomSheet(element, parent) {
       var deregister = $mdGesture.register(parent, 'drag', { horizontal: false });
+      var self = this;
+
       parent.on('$md.dragstart', onDragStart)
         .on('$md.drag', onDrag)
         .on('$md.dragend', onDragEnd);
+
+      self.locked = false;
 
       return {
         element: element,
@@ -227,33 +240,48 @@ function MdBottomSheetProvider($$interimElementProvider) {
           parent.off('$md.dragstart', onDragStart);
           parent.off('$md.drag', onDrag);
           parent.off('$md.dragend', onDragEnd);
+        },
+        lock: function () {
+          self.locked = true;
+        },
+        unlock: function () {
+          self.locked = false;
+        },
+        toggleLock: function () {
+          self.locked = !self.locked;
         }
       };
 
       function onDragStart(ev) {
-        // Disable transitions on transform so that it feels fast
-        element.css($mdConstant.CSS.TRANSITION_DURATION, '0ms');
+        if (self.locked) {
+          // Disable transitions on transform so that it feels fast
+          element.css($mdConstant.CSS.TRANSITION_DURATION, '0ms');
+        }
       }
 
       function onDrag(ev) {
-        var transform = ev.pointer.distanceY;
-        if (transform < 5) {
-          // Slow down drag when trying to drag up, and stop after PADDING
-          transform = Math.max(-PADDING, transform / 2);
+        if (self.locked) {
+          var transform = ev.pointer.distanceY;
+          if (transform < 5) {
+            // Slow down drag when trying to drag up, and stop after PADDING
+            transform = Math.max(-PADDING, transform / 2);
+          }
+          element.css($mdConstant.CSS.TRANSFORM, 'translate3d(0,' + (PADDING + transform) + 'px,0)');
         }
-        element.css($mdConstant.CSS.TRANSFORM, 'translate3d(0,' + (PADDING + transform) + 'px,0)');
       }
 
       function onDragEnd(ev) {
-        if (ev.pointer.distanceY > 0 &&
+        if (self.locked) {
+          if (ev.pointer.distanceY > 0 &&
             (ev.pointer.distanceY > 20 || Math.abs(ev.pointer.velocityY) > CLOSING_VELOCITY)) {
-          var distanceRemaining = element.prop('offsetHeight') - ev.pointer.distanceY;
-          var transitionDuration = Math.min(distanceRemaining / ev.pointer.velocityY * 0.75, 500);
-          element.css($mdConstant.CSS.TRANSITION_DURATION, transitionDuration + 'ms');
-          $mdUtil.nextTick($mdBottomSheet.cancel,true);
-        } else {
-          element.css($mdConstant.CSS.TRANSITION_DURATION, '');
-          element.css($mdConstant.CSS.TRANSFORM, '');
+            var distanceRemaining = element.prop('offsetHeight') - ev.pointer.distanceY;
+            var transitionDuration = Math.min(distanceRemaining / ev.pointer.velocityY * 0.75, 500);
+            element.css($mdConstant.CSS.TRANSITION_DURATION, transitionDuration + 'ms');
+            $mdUtil.nextTick($mdBottomSheet.cancel, true);
+          } else {
+            element.css($mdConstant.CSS.TRANSITION_DURATION, '');
+            element.css($mdConstant.CSS.TRANSFORM, '');
+          }
         }
       }
     }

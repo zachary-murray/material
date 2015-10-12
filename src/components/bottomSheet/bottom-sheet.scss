@@ -21,6 +21,18 @@ md-bottom-sheet {
   transition: $swift-ease-out;
   transition-property: transform;
 
+  &.md-locked-open-add,
+  &.md-locked-open-remove {
+    position: static;
+    display: flex;
+    transform: translate3d(0, 0, 0);
+  }
+  &.md-locked-open {
+    height: 100px;
+    min-height: 100px;
+    max-height: 100px;
+  }
+
   &.md-has-header {
     padding-top: 0;
   }

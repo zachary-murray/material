@@ -208,12 +208,13 @@ function SidenavFocusDirective() {
  *   - `<md-sidenav md-is-locked-open="$mdMedia('min-width: 1000px')"></md-sidenav>`
  *   - `<md-sidenav md-is-locked-open="$mdMedia('sm')"></md-sidenav>` (locks open on small screens)
  */
-function SidenavDirective($mdMedia, $mdUtil, $mdConstant, $mdTheming, $animate, $compile, $parse, $log, $q, $document) {
+function SidenavDirective($mdUtil, $mdConstant, $mdTheming, $animate, $compile, $parse, $log, $q, $document) {
   return {
     restrict: 'E',
     scope: {
       isOpen: '=?mdIsOpen'
     },
+    require: ['mdSidenav', '?mdIsLockedOpen'],
     controller: '$mdSidenavController',
     compile: function(element) {
       element.addClass('md-closed');
@@ -225,22 +226,22 @@ function SidenavDirective($mdMedia, $mdUtil, $mdConstant, $mdTheming, $animate, 
   /**
    * Directive Post Link function...
    */
-  function postLink(scope, element, attr, sidenavCtrl) {
+  function postLink(scope, element, attr, ctrl) {
     var lastParentOverFlow;
     var triggeringElement = null;
     var promise = $q.when(true);
+    var sidenavCtrl = ctrl[0];
+    var isLockedCtrl = ctrl[1];
 
-    var isLockedOpenParsed = $parse(attr.mdIsLockedOpen);
-    var isLocked = function() {
-      return isLockedOpenParsed(scope.$parent, {
-        $media: function(arg) {
-          $log.warn("$media is deprecated for is-locked-open. Use $mdMedia instead.");
-          return $mdMedia(arg);
-        },
-        $mdMedia: $mdMedia
-      });
-    };
     var backdrop = $mdUtil.createBackdrop(scope, "md-sidenav-backdrop md-opaque ng-enter");
+
+    if (isLockedCtrl) {
+      isLockedCtrl.onChange = function (parse) {
+        scope.isLockedOpen = parse(scope.$parent);
+        isLockedCtrl.updateIsLocked(backdrop);
+      };
+    }
+
 
     $mdTheming.inherit(backdrop, element);
 
@@ -253,26 +254,11 @@ function SidenavDirective($mdMedia, $mdUtil, $mdConstant, $mdTheming, $animate, 
       backdrop.remove()
     });
 
-    scope.$watch(isLocked, updateIsLocked);
     scope.$watch('isOpen', updateIsOpen);
 
 
     // Publish special accessor for the Controller instance
     sidenavCtrl.$toggleOpen = toggleOpen;
-
-    /**
-     * Toggle the DOM classes to indicate `locked`
-     * @param isLocked
-     */
-    function updateIsLocked(isLocked, oldValue) {
-      scope.isLockedOpen = isLocked;
-      if (isLocked === oldValue) {
-        element.toggleClass('md-locked-open', !!isLocked);
-      } else {
-        $animate[isLocked ? 'addClass' : 'removeClass'](element, 'md-locked-open');
-      }
-      backdrop.toggleClass('md-locked-open', !!isLocked);
-    }
 
     /**
      * Toggle the SideNav view and attach/detach listeners
