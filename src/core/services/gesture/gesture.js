@@ -102,10 +102,12 @@
           }
 
           function canFocus(element) {
-            return element.hasAttribute('href') ||
-              (( element.nodeName == 'INPUT' || element.nodeName == 'BUTTON' || 
-                element.nodeName == 'SELECT' || element.nodeName == 'TEXTAREA' ) && !element.hasAttribute('DISABLED')) ||
-              ( element.hasAttribute('tabindex') && element.getAttribute('tabindex') != '-1' );
+            var focusableElements = ['INPUT', 'SELECT', 'BUTTON', 'TEXTAREA', 'VIDEO', 'AUDIO'];
+
+            return (element.getAttribute('tabindex') != '-1') &&
+                !element.hasAttribute('DISABLED') &&
+                (element.hasAttribute('tabindex') || element.hasAttribute('href') ||
+                (focusableElements.indexOf(element.nodeName) != -1));
           }
         }
       });
@@ -491,50 +493,38 @@
        *  - click events sent by the keyboard (eg form submit)
        *  - events that originate from an Ionic app
        */
-      document.addEventListener('click', function clickHijacker(ev) {
-        var isKeyClick = ev.clientX === 0 && ev.clientY === 0;
-        if (!isKeyClick && !ev.$material && !ev.isIonicTap
-            && !isInputEventFromLabelClick(ev)) {
-          ev.preventDefault();
-          ev.stopPropagation();
-          lastLabelClickPos = null;
-        } else {
-          lastLabelClickPos = null;
-          if (ev.target.tagName.toLowerCase() == 'label') {
-            lastLabelClickPos = {x: ev.x, y: ev.y};
-          }
-        }
-      }, true);
-
-      document.addEventListener('mouseup', function clickHijacker(ev) {
-        var isKeyClick = !ev.clientX && !ev.clientY;
-        if (!isKeyClick && !ev.$material && !ev.isIonicTap
-            && !isInputEventFromLabelClick(ev)) {
-          ev.preventDefault();
-          ev.stopPropagation();
-        }
-      }, true);
-
-      document.addEventListener('mousedown', function clickHijacker(ev) {
-        var isKeyClick = !ev.clientX && !ev.clientY;
-        if (!isKeyClick && !ev.$material && !ev.isIonicTap
-            && !isInputEventFromLabelClick(ev)) {
-          ev.preventDefault();
-          ev.stopPropagation();
-        }
-      }, true);
-
-      document.addEventListener('focus', function clickHijacker(ev) {
-        var isKeyClick = !ev.clientX && !ev.clientY;
-        if (!isKeyClick && !ev.$material && !ev.isIonicTap
-            && !isInputEventFromLabelClick(ev)) {
-          ev.preventDefault();
-          ev.stopPropagation();
-        }
-      }, true);
+      document.addEventListener('click'    , clickHijacker     , true);
+      document.addEventListener('mouseup'  , mouseInputHijacker, true);
+      document.addEventListener('mousedown', mouseInputHijacker, true);
+      document.addEventListener('focus'    , mouseInputHijacker, true);
 
       isInitialized = true;
     }
+
+    function mouseInputHijacker(ev) {
+      var isKeyClick = !ev.clientX && !ev.clientY;
+      if (!isKeyClick && !ev.$material && !ev.isIonicTap
+        && !isInputEventFromLabelClick(ev)) {
+        ev.preventDefault();
+        ev.stopPropagation();
+      }
+    }
+
+    function clickHijacker(ev) {
+      var isKeyClick = ev.clientX === 0 && ev.clientY === 0;
+      if (!isKeyClick && !ev.$material && !ev.isIonicTap
+        && !isInputEventFromLabelClick(ev)) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        lastLabelClickPos = null;
+      } else {
+        lastLabelClickPos = null;
+        if (ev.target.tagName.toLowerCase() == 'label') {
+          lastLabelClickPos = {x: ev.x, y: ev.y};
+        }
+      }
+    }
+
 
     // Listen to all events to cover all platforms.
     var START_EVENTS = 'mousedown touchstart pointerdown';
