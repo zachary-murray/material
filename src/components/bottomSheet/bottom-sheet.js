@@ -175,7 +175,7 @@ function MdBottomSheetProvider($$interimElementProvider) {
         options.restoreScroll = $mdUtil.disableScrollAround(bottomSheet.element, options.parent);
       }
 
-      return $animate.enter(bottomSheet.element, options.parent)
+      return $animate.enter(bottomSheet.element, options.parent, null)
         .then(function() {
           var focusable = $mdUtil.findFocusTarget(element) || angular.element(
             element[0].querySelector('button') ||

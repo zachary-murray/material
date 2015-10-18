@@ -18,3 +18,7 @@
     margin-top:50px;
 }
 
+md-dialog {
+    width: 500px!important;
+    height: 800px!important;;
+}

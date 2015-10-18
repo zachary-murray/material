@@ -19,8 +19,7 @@ angular.module('bottomSheetDemo1', ['ngMaterial'])
     $scope.alert = '';
     $mdBottomSheet.show({
       templateUrl: 'bottom-sheet-list-template.html',
-      controller: 'ListBottomSheetCtrl',
-      targetEvent: $event
+      controller: 'ListBottomSheetCtrl'
     }).then(function(clickedItem) {
       $scope.alert = clickedItem['name'] + ' clicked!';
     });
