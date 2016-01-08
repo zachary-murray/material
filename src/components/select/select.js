@@ -455,9 +455,9 @@ function SelectMenuDirective($parse, $mdUtil, $mdTheming) {
     // and values matching every option's controller.
     self.options = {};
 
-    $scope.$watch(function() { return self.options; }, function() {
+    $scope.$watchCollection(function() { return self.options; }, function() {
       self.ngModel.$render();
-    }, true);
+    });
 
     var deregisterCollectionWatch;
     self.setMultiple = function(isMultiple) {
